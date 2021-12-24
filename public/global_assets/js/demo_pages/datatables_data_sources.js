@@ -1,0 +1,104 @@
+/* ------------------------------------------------------------------------------
+ *
+ *  # Datatables data sources
+ *
+ *  Demo JS code for datatable_data_sources.html page
+ *
+ * ---------------------------------------------------------------------------- */
+
+
+// Setup module
+// ------------------------------
+
+var DatatableDataSources = function() {
+
+
+    //
+    // Setup module components
+    //
+
+    // Basic Datatable examples
+    var _componentDatatableDataSources = function() {
+        if (!$().DataTable) {
+            console.warn('Warning - datatables.min.js is not loaded.');
+            return;
+        }
+
+        // Setting datatable defaults
+        $.extend( $.fn.dataTable.defaults, {
+            autoWidth: false,
+            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+        });
+
+
+        // HTML sourced data
+        $('.datatable-html').dataTable({
+            "searching": false,
+            "lengthChange": false,
+            "info": false,
+            columnDefs: [{
+                orderable: false,
+                width: 100,
+                targets: [ 0 ]
+            }]
+        });
+
+        // Data
+        var dataSet = [
+            ['Trident','Internet Explorer 4.0','Win 95+','4','X'],
+            ['Trident','Internet Explorer 5.0','Win 95+','5','C'],
+            ['Trident','Internet Explorer 5.5','Win 95+','5.5','A'],
+            ['Trident','Internet Explorer 6','Win 98+','6','A'],
+            ['Gecko','Firefox 1.0','Win 98+ / OSX.2+','1.7','A'],
+            ['Gecko','Firefox 1.5','Win 98+ / OSX.2+','1.8','A'],
+            ['Gecko','Firefox 2.0','Win 98+ / OSX.2+','1.8','A'],
+            ['Gecko','Firefox 3.0','Win 2k+ / OSX.3+','1.9','A'],
+            ['Gecko','Camino 1.0','OSX.2+','1.8','A'],
+            ['Gecko','Camino 1.5','OSX.3+','1.8','A'],
+            ['Webkit','Safari 1.2','OSX.3','125.5','A'],
+            ['Webkit','Safari 1.3','OSX.3','312.8','A'],
+            ['Webkit','Safari 2.0','OSX.4+','419.3','A'],
+            ['Presto','Opera 7.0','Win 95+ / OSX.1+','-','A'],
+            ['Presto','Opera 7.5','Win 95+ / OSX.2+','-','A'],
+            ['Misc','NetFront 3.1','Embedded devices','-','C'],
+            ['Misc','NetFront 3.4','Embedded devices','-','A'],
+            ['Misc','Dillo 0.8','Embedded devices','-','X'],
+            ['Misc','Links','Text only','-','X']
+        ];
+    };
+
+    // Select2 for length menu styling
+    var _componentSelect2 = function() {
+        if (!$().select2) {
+            console.warn('Warning - select2.min.js is not loaded.');
+            return;
+        }
+
+        // Initialize
+        $('.dataTables_length select').select2({
+            minimumResultsForSearch: Infinity,
+            dropdownAutoWidth: true,
+            width: 'auto'
+        });
+    };
+
+
+    //
+    // Return objects assigned to module
+    //
+
+    return {
+        init: function() {
+            _componentDatatableDataSources();
+            _componentSelect2();
+        }
+    }
+}();
+
+
+// Initialize module
+// ------------------------------
+
+document.addEventListener('DOMContentLoaded', function() {
+    DatatableDataSources.init();
+});
