@@ -101,9 +101,11 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     // auditor
     Route::get('/users-admin', [UsersAdminController::class, 'getIndex']);
     Route::get('/users-admin/add', [UsersAdminController::class, 'getAdd']);
+    Route::get('/akun', [UsersAdminController::class, 'getProfile']);
     Route::get('/users-admin/edit/{id}', [UsersAdminController::class, 'getEdit']);
     Route::get('/users-admin/delete/{id}', [UsersAdminController::class, 'getDelete']);
     Route::post('/users-admin/save', [UsersAdminController::class, 'postSaveData']);
+    Route::post('/users-admin/save-profile', [UsersAdminController::class, 'postSaveProfile']);
 
     // auditor
     Route::get('/privileges', [PrivilegesController::class, 'getIndex']);

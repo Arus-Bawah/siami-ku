@@ -63,7 +63,7 @@ class AuditeeController extends Controller
             $new->unit = g('unit');
             if ($id) {
                 if (g('password')){
-
+                    $new->password = Hash::make(g('password'));
                 }
                 if (hasFile('photo')){
                     $new->foto = Apps::uploadFile("photo");

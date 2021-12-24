@@ -46,6 +46,37 @@ class UsersAdminController extends Controller
         $data['data'] = CmsUsers::findById($id);
         return view(adminView('user_manager.lpm.form'),$data);
     }
+    public function getProfile() {
+        $data['page_title'] = "Edit Profile";
+        $id = session()->get('users_id');
+        $data['data'] = CmsUsers::findById($id);
+        return view(adminView('my-profile.index'),$data);
+    }
+    public function postSaveProfile() {
+        DB::transaction(function () {
+            $id = g('id');
+            if ($id) {
+                $new = CmsUsers::findById($id);
+            }else{
+                $new = new CmsUsers();
+            }
+            $new->name = g('name');
+            $new->username = g('username');
+            $new->email = g('email');
+            if (g('password')){
+                $new->password = Hash::make(g('password'));
+            }
+            if (hasFile('photo')){
+                $new->foto = Apps::uploadFile("photo");
+                session()->put('users_foto', asset($new->foto));
+            }
+            $new->save();
+        });
+        session()->put('users_name', g('name'));
+        session()->put('users_email', g('email'));
+
+        return redirect()->back()->with(["message"=>"Success insert data","type"=>"success"]);
+    }
     public function postSaveData()
     {
         $find = CmsPrivileges::findBy("name","LPM");
@@ -62,7 +93,7 @@ class UsersAdminController extends Controller
             $new->email = g('email');
             if ($id) {
                 if (g('password')){
-
+                    $new->password = Hash::make(g('password'));
                 }
                 if (hasFile('photo')){
                     $new->foto = Apps::uploadFile("photo");

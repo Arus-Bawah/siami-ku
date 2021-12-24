@@ -61,7 +61,7 @@ class VisitorController extends Controller
             $new->email = g('email');
             if ($id) {
                 if (g('password')){
-
+                    $new->password = Hash::make(g('password'));
                 }
                 if (hasFile('photo')){
                     $new->foto = Apps::uploadFile("photo");
