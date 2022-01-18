@@ -34,4 +34,5 @@ class CmsUsers extends Model
     {
         return CmsPrivileges::find($this->id_cms_privileges);
     }
+
 }

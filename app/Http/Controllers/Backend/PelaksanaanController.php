@@ -8,6 +8,7 @@ use App\Models\Audit;
 use App\Models\MasterFakultas;
 use App\Repositories\AuditRepository;
 use App\Repositories\CmsUsersRepository;
+use App\Repositories\MasterTemplateCategoryRepository;
 use crocodicstudio\cbmodel\Core\ModelSetter;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,7 @@ class PelaksanaanController extends Controller
     public function __construct()
     {
         // button
-        $button['button_add'] = true;
+        $button['button_add'] = false;
         $this->button_setting = $button;
 
     }
@@ -50,6 +51,20 @@ class PelaksanaanController extends Controller
         $data['auditee'] = CmsUsersRepository::getByPrivileges('Auditee');
         $data['anggota'] = AnggotaAuditor::findAllBy('audit_id',$id);
         return view(adminView('pelaksanaan.form'),$data);
+    }
+
+    public function getAudit($id)
+    {
+        $data['page_title'] = "Detail Penjadwalan";
+        $data['data'] = AuditRepository::Detail($id);
+        $data['kriteria'] = json_decode($data['data']->criteria);
+        $data['anggota'] = AnggotaAuditor::findAllBy('audit_id',$id);
+        $id = $data['data']->template_code;
+        $data['kelengkapan'] = MasterTemplateCategoryRepository::listData($id,'kriteria');
+        if (g('type') == 'capaian'){
+            $data['kelengkapan'] = MasterTemplateCategoryRepository::listData($id,'capaian');
+        }
+        return view(adminView('pelaksanaan.audit'),$data);
     }
     public function postSaveData()
     {

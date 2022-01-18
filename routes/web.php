@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\MasterUptController;
 use App\Http\Controllers\Backend\MasterLabController;
 use App\Http\Controllers\Module\UsersAdminController;
 use App\Http\Controllers\Module\PrivilegesController;
+use App\Http\Controllers\Backend\MasterTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,13 +46,29 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     Route::get('/pelaksanaan', [PelaksanaanController::class, 'getIndex']);
     Route::get('/pelaksanaan/add', [PelaksanaanController::class, 'getAdd']);
     Route::get('/pelaksanaan/edit/{id}', [PelaksanaanController::class, 'getEdit']);
+    Route::get('/pelaksanaan/audit/{id}', [PelaksanaanController::class, 'getAudit']);
     Route::get('/pelaksanaan/delete/{id}', [PelaksanaanController::class, 'getDelete']);
     Route::post('/pelaksanaan/save', [PelaksanaanController::class, 'postSaveData']);
+
+    Route::get('/template', [MasterTemplateController::class, 'getIndex']);
+    Route::get('/template/list-data', [MasterTemplateController::class, 'getListData']);
+    Route::get('/template/add', [MasterTemplateController::class, 'getAdd']);
+    Route::get('/template/add/step-2/{id}', [MasterTemplateController::class, 'getStep2']);
+    Route::get('/template/add/step-3/{id}', [MasterTemplateController::class, 'getStep3']);
+    Route::get('/template/edit/{id}', [MasterTemplateController::class, 'getEdit']);
+    Route::get('/template/delete/{id}', [MasterTemplateController::class, 'getDelete']);
+    Route::get('/template/detail/{id}', [MasterTemplateController::class, 'getDetail']);
+    Route::post('/template/save', [MasterTemplateController::class, 'postSaveData']);
+    Route::get('/template/add-question', [MasterTemplateController::class, 'getAddQuestion']);
+    Route::get('/template/update-question', [MasterTemplateController::class, 'getUpdateQuestion']);
+    Route::post('/template/add/kriteria', [MasterTemplateController::class, 'postSaveKriteria']);
+    Route::get('/template/update/kriteria', [MasterTemplateController::class, 'getUpdateKriteria']);
 
     Route::get('/penjadwalan', [PenjadwalanController::class, 'getIndex']);
     Route::get('/penjadwalan/add', [PenjadwalanController::class, 'getAdd']);
     Route::get('/penjadwalan/edit/{id}', [PenjadwalanController::class, 'getEdit']);
     Route::get('/penjadwalan/delete/{id}', [PenjadwalanController::class, 'getDelete']);
+    Route::get('/penjadwalan/detail/{id}', [PenjadwalanController::class, 'getDetail']);
     Route::get('/penjadwalan/publish/{id}', [PenjadwalanController::class, 'getPublish']);
     Route::get('/penjadwalan/un-publish/{id}', [PenjadwalanController::class, 'getUnPublish']);
     Route::post('/penjadwalan/save', [PenjadwalanController::class, 'postSaveData']);

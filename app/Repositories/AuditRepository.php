@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Request;
 class AuditRepository extends Audit
 {
     // TODO : Make you own query methods
+    public static function Detail($id)
+    {
+        return Audit::table()
+            ->join('cms_users as ad_1','ad_1.id','=','audit.audit_by')
+            ->join('cms_users as ad_2','ad_2.id','=','audit.audit_leader')
+            ->join('master_fakultas','master_fakultas.id','=','audit.fakultas_id')
+            ->select('audit.*','ad_1.name as audit_by','ad_2.name as audit_leader','master_fakultas.name as fakultas')
+            ->where('audit.id',$id)
+            ->first();
+    }
     public static function listData()
     {
         $g = Request::all();

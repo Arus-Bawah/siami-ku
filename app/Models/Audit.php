@@ -30,5 +30,7 @@ class Audit extends Model
 	public $template_code;
 	public $status_publish;
 	public $deleted_at;
+	public $location;
+	public $criteria;
 
 }

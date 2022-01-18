@@ -49,9 +49,9 @@
                     <td>{{$row->unit}}</td>
                     <td>{{date('d M Y',strtotime($row->audit_date))}}</td>
                     <td>{{$row->siklus_number}} / {{$row->siklus_year}}</td>
-                    <td class="text-right" style="width: 300px !important;">
-                        {{--                        <a href="" class="btn btn-dark btn-grey btn-custom">Audit</a>--}}
+                    <td class="text-right" style="width: 350px !important;">
                         <a href="{{adminUrl('penjadwalan/edit')}}/{{$row->id}}?return_url={{request()->fullUrl()}}" class="btn btn-xs btn-secondary border-2 ml-1">Edit</a>
+                        <a href="{{adminUrl('penjadwalan/detail')}}/{{$row->id}}?return_url={{request()->fullUrl()}}" class="btn btn-xs btn-secondary border-2 ml-1">Detail</a>
                         <a href="javascript:;" onclick="doDelete('{{adminUrl("penjadwalan/delete/".$row->id.'?return_url='.request()->fullUrl())}}')" class="btn btn-xs btn-dark border-2 ml-1">Hapus</a>
                         @if($row->status_publish === null)
                             <a href="javascript:;" onclick="doPubish('{{adminUrl("penjadwalan/publish/".$row->id.'?return_url='.request()->fullUrl())}}','pubish')" class="btn btn-xs btn-secondary border-2 ml-1">Publish</a>
