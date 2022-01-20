@@ -17,6 +17,9 @@
 <script src="{{url('assets/js/jquery-sortable-min.js')}}"></script>
 <script src="{{asset('global_assets/js/demo_pages/dashboard.js')}}"></script>
 <script src="{{asset('global_assets/js/demo_pages/form_layouts.js')}}"></script>
+<script src="{{asset('global_assets/js/plugins/forms/styling/uniform.min.js')}}"></script>
+<script src="{{asset('global_assets/js/plugins/forms/styling/switchery.min.js')}}"></script>
+<script src="{{asset('global_assets/js/plugins/forms/styling/switch.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>

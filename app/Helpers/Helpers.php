@@ -1,4 +1,10 @@
 <?php
+if (! function_exists('fullUrl')) {
+    function fullUrl()
+    {
+        return request()->fullUrl();
+    }
+}
 
 if (! function_exists('adminUrl')) {
     function adminUrl($url ='dashboard')

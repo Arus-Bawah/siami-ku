@@ -12,7 +12,7 @@
                     <h5 class="card-title">{{$data->name}}</h5>
                     <div class="header-elements">
                         <button class="btn btn-grey btn-custom-grey btn-custom mr-2">Download</button>
-                        <a href="" class="btn btn-grey font-white btn-custom">Start audit</a>
+                        <a href="{{adminUrl('pelaksanaan/do-audit/'.$data->id)}}?return_url={{fullUrl()}}" class="btn btn-grey font-white btn-custom">Start audit</a>
                     </div>
                 </div>
                 <div class="card-body">

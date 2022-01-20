@@ -37,6 +37,11 @@
     color: #999999;
     background: #CCCCCC;
 }
+.btn-custom-white{
+    border: 1px solid #999999;
+    color: #666666;
+    background: #fff;
+}
 .styled-table {
     border-collapse: collapse;
     margin: 0;

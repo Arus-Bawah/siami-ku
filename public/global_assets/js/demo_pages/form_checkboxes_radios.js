@@ -1,14 +1,3 @@
-/* ------------------------------------------------------------------------------
- *
- *  # Checkboxes and radios
- *
- *  Demo JS code for form_checkboxes_radios.html page
- *
- * ---------------------------------------------------------------------------- */
-
-
-// Setup module
-// ------------------------------
 
 var InputsCheckboxesRadios = function () {
 

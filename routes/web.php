@@ -47,8 +47,12 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     Route::get('/pelaksanaan/add', [PelaksanaanController::class, 'getAdd']);
     Route::get('/pelaksanaan/edit/{id}', [PelaksanaanController::class, 'getEdit']);
     Route::get('/pelaksanaan/audit/{id}', [PelaksanaanController::class, 'getAudit']);
+    Route::get('/pelaksanaan/do-audit/{id}', [PelaksanaanController::class, 'getDoAudit']);
+    Route::get('/pelaksanaan/do-temuan/{id}', [PelaksanaanController::class, 'getTemuan']);
+    Route::get('/pelaksanaan/data-audit/{id}', [PelaksanaanController::class, 'getAuditData']);
     Route::get('/pelaksanaan/delete/{id}', [PelaksanaanController::class, 'getDelete']);
     Route::post('/pelaksanaan/save', [PelaksanaanController::class, 'postSaveData']);
+    Route::post('/pelaksanaan/save-answer', [PelaksanaanController::class, 'postSaveAnswer']);
 
     Route::get('/template', [MasterTemplateController::class, 'getIndex']);
     Route::get('/template/list-data', [MasterTemplateController::class, 'getListData']);
