@@ -44,7 +44,7 @@
                                             <th class="text-center">Mark</th>
                                         </tr>
                                         </thead>
-                                        <tbody id="list-question">
+                                        <tbody id="list-question-{{$row->id}}">
                                         @foreach($row->question as $q)
                                             <tr>
                                                 <td>{{$q->question}}</td>
@@ -52,7 +52,7 @@
                                                     <i class="{{($q->answer_action =='on'?'icon-check':'icon-cross')}}"></i>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a target="{{($q->answer_file?'_blank':'')}}" href="{{($q->answer_file?$q->answer_file:'')}}" class="{{($q->answer_file?'btn btn-light btn-custom-white btn-custom':'btn btn-grey font-white btn-custom')}}">{{($q->answer_file?'View':'Nope')}}</a>
+                                                    <a target="{{($q->answer_file?'_blank':'')}}" href="{{($q->answer_file?$q->answer_file:'javascript:;')}}" class="{{($q->answer_file?'btn btn-light btn-custom-white btn-custom':'btn btn-grey font-white btn-custom')}}">{{($q->answer_file?'View':'Nope')}}</a>
                                                 </td>
                                                 <td>{{($q->answer_keterangan?$q->answer_keterangan:$q->keterangan)}}</td>
                                                 <td class="text-center">
@@ -75,6 +75,7 @@
             let active = '{{$category_id}}';
             function doActive(id) {
                 active = id;
+                $('#activeNow').val(id);
                 doGenerate(id);
             }
             function doGenerate(id) {
@@ -88,7 +89,7 @@
                         let classEdit = 'btn btn-grey font-white btn-custom';
                         let classView = 'btn btn-grey font-white btn-custom';
                         let target = '';
-                        let file = '';
+                        let file = 'javascript:;';
                         let icon ='icon-cross';
                         if (response[i].answer_keterangan) {
                             keterangan = response[i].answer_keterangan;
@@ -108,12 +109,12 @@
                             '<tr>' +
                             '<td>'+response[i].question+'</td>' +
                             '<td> <i class="'+icon+'"></i> </td>' +
-                            '<td class="text-center"> <a target="'+target+'" href="answer_file" class="'+classEdit+'">'+textView+'</a> </td>' +
+                            '<td class="text-center"> <a target="'+target+'" href="'+file+'" class="'+classEdit+'">'+textView+'</a> </td>' +
                             '<td>'+keterangan+'</td> ' +
                             '<td class="text-center"> <button class="'+classView+'" onclick="doAnswert(`'+response[i].id+'`,`'+response[i].question+'`,`'+response[i].answer_keterangan+'`,`'+response[i].keterangan+'`,`'+response[i].answer_action+'`)">'+textEdit+'</button> </td> ' +
                             '</tr>'
                     });
-                    $('#list-question').html(html);
+                    $('#list-question-'+id).html(html);
                 });
             }
             $(document).ready(function () {
@@ -217,12 +218,14 @@
                                 <td class="font-weight-bold" style="vertical-align: top">Kriteria</td>
                                 <td class="textInfo"></td>
                             </tr>
-                            <tr>
-                                <td class="font-weight-bold" style="vertical-align: top">File</td>
-                                <td>
-                                    <input type="file" id="fileUpload" name="file" class="form-control-file">
-                                </td>
-                            </tr>
+                            @if(session()->get('users_privileges') == 'Auditee')
+                                <tr>
+                                    <td class="font-weight-bold" style="vertical-align: top">File</td>
+                                    <td>
+                                        <input type="file" id="fileUpload" name="file" class="form-control-file">
+                                    </td>
+                                </tr>
+                            @endif
                             <tr>
                                 <td class="font-weight-bold" style="vertical-align: top">Action</td>
                                 <td id="action">

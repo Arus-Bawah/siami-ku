@@ -7,10 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Models\AnggotaAuditor;
 use App\Models\Audit;
 use App\Models\AuditKelengkapanAnswer;
+use App\Models\AuditPerbaikan;
+use App\Models\AuditTemuan;
 use App\Models\MasterFakultas;
 use App\Repositories\AuditKelengkapanAnswerRepository;
 use App\Repositories\AuditKelengkapanRepository;
+use App\Repositories\AuditPerbaikanRepository;
 use App\Repositories\AuditRepository;
+use App\Repositories\AuditTemuanRepository;
 use App\Repositories\CmsUsersRepository;
 use App\Repositories\MasterTemplateCategoryRepository;
 use crocodicstudio\cbmodel\Core\ModelSetter;
@@ -70,6 +74,14 @@ class PelaksanaanController extends Controller
         }
         return view(adminView('pelaksanaan.audit'),$data);
     }
+    public function getSubmitAudit($id) {
+        $find = Audit::findById($id);
+        $find->status = 'Done';
+        $find->updated_at = date('Y-m-d H:i:s');
+        $find->save();
+
+        return redirect(adminUrl('pelaksanaan'))->with(["message"=>"Success update data","type"=>"success"]);
+    }
     public function getDoAudit($id) {
         $data['page_title'] = "Pelaksanaan Detail - Pengecekan Kelengkapan Dokumen";
         if (g('type')) {
@@ -91,6 +103,11 @@ class PelaksanaanController extends Controller
         $idAudit = $idData;
         $userType = session()->get('users_privileges');
         $data['audit'] = AuditKelengkapanRepository::findMyAnswer($idUser,$idAudit,$userType);
+        if ($data['data']->status == 'Waiting') {
+            $audit = Audit::findById($idData);
+            $audit->status = 'On progress';
+            $audit->save();
+        }
 
         return view(adminView((g('type')?'pelaksanaan.do-audit-capaian':'pelaksanaan.do-audit')),$data);
     }
@@ -99,6 +116,75 @@ class PelaksanaanController extends Controller
 
         $data['data'] = AuditRepository::Detail($id);
         return view(adminView('pelaksanaan.temuan'),$data);
+    }
+    public function getListTemuan($id) {
+        $data['status'] = 1;
+        $userId = session()->get('users_id');
+        $data['data'] = AuditTemuanRepository::findAllByIdAndUser($id,$userId);
+        if (g('is_perbaikan') == 1) {
+            $data['data'] = AuditPerbaikanRepository::findAllByIdAndUser($id,$userId);
+        }
+
+        $data['status'] = 1;
+        return response()->json($data);
+    }
+    public function getPerbaikan($id) {
+        $data['page_title'] = "Pelaksanaan Detail - Rekomendasi perbaikan";
+
+        $data['data'] = AuditRepository::Detail($id);
+        return view(adminView('pelaksanaan.perbaikan'),$data);
+    }
+    public function getDeleteTemuan($id) {
+        if (g('is_perbaikan') == 1){
+            AuditPerbaikan::table()
+                ->where('id',$id)
+                ->delete();
+        }else{
+            AuditTemuan::table()
+                ->where('id',$id)
+                ->delete();
+        }
+        $data['status'] = 1;
+        return response()->json($data);
+    }
+    public function postTemuanSubmit($id) {
+        $idUser = session()->get('users_id');
+        $userType = session()->get('users_privileges');
+        if (g('is_perbaikan') == 1) {
+            if (g('edit_id')) {
+                $new = AuditPerbaikan::findById(g('edit_id'));
+            }else{
+                $new = new AuditPerbaikan();
+                $new->audit_id = $id;
+                $new->created_by = $userType;
+                $new->cms_users_id = $idUser;
+            }
+            $new->area = g('area');
+            $new->recomended = g('recomended');
+            $new->pic = g('pic');
+            $new->target = g('target');
+            $new->save();
+        }else{
+            if (g('edit_id')) {
+                $new = AuditTemuan::findById(g('edit_id'));
+            }else{
+                $new = new AuditTemuan();
+                $new->audit_id = $id;
+                $new->created_by = $userType;
+                $new->cms_users_id = $idUser;
+            }
+            $new->type = g('jenis');
+            $new->referensi = g('referensi');
+            $new->pernyataan = g('pernyataan');
+            if (hasFile('file')) {
+                $new->file = Apps::uploadFile("file");
+            }
+            $new->save();
+        }
+        if (!empty($new)) {
+            $data['status'] = 1;
+            return response()->json($data);
+        }
     }
     public function getAuditData($id) {
         $templateId = g('template_id');

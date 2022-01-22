@@ -44,7 +44,7 @@
                                             <th class="text-center">Mark</th>
                                         </tr>
                                         </thead>
-                                        <tbody id="list-question">
+                                        <tbody id="list-question-{{$row->id}}">
                                         @foreach($row->question as $q)
                                             <tr>
                                                 <td>{{$q->question}}</td>
@@ -74,6 +74,7 @@
             let active = '{{$category_id}}';
             function doActive(id) {
                 active = id;
+                $('#activeNow').val(id);
                 doGenerate(id);
             }
             function doGenerate(id) {
@@ -103,10 +104,10 @@
                             '<td>'+response[i].question+'</td>' +
                             '<td>'+response[i].keterangan+'</td>' +
                             '<td>'+response[i].capaian+'</td>' +
-                            '<td class="text-center"> <button class="'+classView+'" onclick="doAnswert(`'+response[i].id+'`,`'+response[i].question+'`,`'+response[i].answer_keterangan+'`,`'+response[i].keterangan+'`,`'+response[i].answer_action+'`)">'+textEdit+'</button> </td> ' +
+                            '<td class="text-center"> <button class="'+classView+'" onclick="doAnswert(`'+response[i].id+'`,`'+response[i].question+'`,`'+response[i].answer_keterangan+'`,`'+response[i].keterangan+'`,`'+response[i].answer_action+'`,`'+response[i].capaian+'`)">'+textEdit+'</button> </td> ' +
                             '</tr>'
                     });
-                    $('#list-question').html(html);
+                    $('#list-question-'+id).html(html);
                 });
             }
             $(document).ready(function () {

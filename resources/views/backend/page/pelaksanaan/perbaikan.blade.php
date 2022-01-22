@@ -13,23 +13,23 @@
             <div class="card">
                 <div class="card-header header-elements-inline">
                     <div>
-                        <h5 class="card-title" style="font-size: 24px;">Daftar temuan</h5>
-                        <small>Step 3 of 4</small>
+                        <h5 class="card-title" style="font-size: 24px;">Rekomendasi perbaikan</h5>
+                        <small>Step 4 of 4</small>
                     </div>
                     <div class="header-elements" style="margin-top: -20px;">
-                        <a href="{{adminUrl('pelaksanaan/do-audit/'.$data->id)}}?type=capaian&return_url={{adminUrl('pelaksanaan')}}" class="btn btn-grey btn-custom-grey btn-custom mr-2">Back</a>
-                        <a href="{{adminUrl('pelaksanaan/do-perbaikan/'.$data->id)}}?return_url={{adminUrl('pelaksanaan')}}" class="btn btn-grey font-white btn-custom">Next</a>
+                        <a href="{{adminUrl('pelaksanaan/do-temuan/'.$data->id)}}?type=capaian&return_url={{adminUrl('pelaksanaan')}}" class="btn btn-grey btn-custom-grey btn-custom mr-2">Back</a>
+                        <a href="{{adminUrl('pelaksanaan/submit-audit/'.$data->id)}}?type=capaian&return_url={{adminUrl('pelaksanaan')}}" class="btn btn-grey font-white btn-custom">Submit</a>
                     </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless">
                         <thead>
                         <tr>
-                            <td style="background: #F2F2F2;width: 150px;">Jenis temuan</td>
-                            <td style="background: #F2F2F2">Referensi</td>
-                            <td style="background: #F2F2F2">Pernyataan</td>
-                            <td style="background: #F2F2F2;width: 150px;" class="text-center">Attachment</td>
-                            <td style="background: #F2F2F2" class="text-center">Action</td>
+                            <td style="background: #F2F2F2;width: 150px;">Area</td>
+                            <td style="background: #F2F2F2">Rekomendasi perbaikan</td>
+                            <td style="background: #F2F2F2;width: 150px;">PIC / Penanggung jawab</td>
+                            <td style="background: #F2F2F2;width: 150px;">Target pemenuhan</td>
+                            <td style="background: #F2F2F2;width: 150px !important;" class="text-center">Action</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -37,25 +37,21 @@
                             <tr>
                                 <td>
                                     {{csrf_field()}}
-                                    <select name="jenis" class="form-control" required>
-                                        <option value="">Select</option>
-                                        <option value="Positif">Positif</option>
-                                        <option value="Observasi">Observasi</option>
-                                        <option value="Minor">Minor</option>
-                                        <option value="Mayor">Mayor</option>
-                                    </select>
+                                    <input type="hidden" name="is_perbaikan" value="1">
+                                    <input type="text" name="area" required class="form-control">
                                 </td>
                                 <td style="width: 400px;">
-                                    <input type="text" name="referensi" required class="form-control">
+                                    <input type="text" name="recomended" required class="form-control">
                                 </td>
                                 <td>
-                                    <input type="text" name="pernyataan" required class="form-control">
+                                    <select name="pic" class="form-control" required>
+                                        <option value="">Select</option>
+                                        <option value="Dekan">Dekan</option>
+                                        <option value="Dekan/Unit terkait">Dekan/Unit terkait</option>
+                                    </select>
                                 </td>
                                 <td class="text-center">
-                                    <label for="fileUpload" class="btn btn-light btn-custom-white btn-custom">
-                                        Upload
-                                        <input type="file" name="file" id="fileUpload" style="display: none">
-                                    </label>
+                                    <input type="text" name="target" required class="form-control">
                                 </td>
                                 <td class="text-center" style="width: 100px !important;">
                                     <button type="submit" class="btn btn-secondary btn-rounded w-100 save-button">Add</button>
@@ -73,7 +69,7 @@
     </div>
     <!-- Basic modal -->
     <div id="modalUpdate" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-lg" style="max-width:1000px">
+        <div class="modal-dialog modal-lg" style="max-width:1200px">
             <div class="modal-content">
                 <div class="modal-header">
                     <div>
@@ -87,39 +83,32 @@
                     <table class="table table-borderless">
                         <thead>
                         <tr>
-                            <td style="background:#F2F2F2 !important;" class="font-weight-bold">Jenis temuan</td>
-                            <td style="background:#F2F2F2 !important;" class="font-weight-bold">Referensi</td>
-                            <td style="background:#F2F2F2 !important;" class="font-weight-bold">Pernyataan</td>
-                            <td style="background:#F2F2F2 !important;" class="font-weight-bold">Attachment</td>
+                            <td style="background: #F2F2F2;width: 200px;" class="font-weight-bold">Area</td>
+                            <td style="background: #F2F2F2" class="font-weight-bold">Rekomendasi perbaikan</td>
+                            <td style="background: #F2F2F2;width: 150px;" class="font-weight-bold">PIC / Penanggung jawab</td>
+                            <td style="background: #F2F2F2;width: 150px;" class="font-weight-bold">Target pemenuhan</td>
                         </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td style="width: 150px;vertical-align: top;">
                                     {{csrf_field()}}
+                                    <input type="hidden" name="is_perbaikan" value="1">
                                     <input type="hidden" name="edit_id" id="editId" value="">
-                                    <select id="editJenis" name="jenis" class="form-control">
+                                    <input id="editArea" type="text" name="area" class="form-control">
+                                </td>
+                                <td style="width: 400px;vertical-align: top;">
+                                    <input id="editRecomended" type="text" name="recomended" class="form-control">
+                                </td>
+                                <td style="width: 400px;vertical-align: top;">
+                                    <select id="editPic" name="pic" class="form-control">
                                         <option value="">Select</option>
-                                        <option value="Positif">Positif</option>
-                                        <option value="Observasi">Observasi</option>
-                                        <option value="Minor">Minor</option>
-                                        <option value="Mayor">Mayor</option>
+                                        <option value="Dekan">Dekan</option>
+                                        <option value="Dekan/Unit terkait">Dekan/Unit terkait</option>
                                     </select>
                                 </td>
-                                <td style="width: 400px;vertical-align: top;">
-                                    <input id="editReferensi" type="text" name="referensi" class="form-control">
-                                </td>
-                                <td style="width: 400px;vertical-align: top;">
-                                    <input id="editPernyataan" type="text" name="pernyataan" class="form-control">
-                                </td>
                                 <td class="text-center" style="vertical-align: top;">
-                                    <label for="fileUpload" class="btn btn-light btn-custom-white btn-custom">
-                                        Upload
-                                        <input type="file" name="file" id="fileUpload" style="display: none">
-                                    </label>
-                                    <span id="checkFile">
-
-                                    </span>
+                                    <input type="text" name="target" id="editTarget" required class="form-control">
                                 </td>
                             </tr>
                         </tbody>
@@ -142,7 +131,7 @@
                 doGenerate();
             })
             function doDelete(id) {
-                $.getJSON( "{{adminUrl('pelaksanaan/delete-temuan')}}/"+id, function( data ) {
+                $.getJSON( "{{adminUrl('pelaksanaan/delete-temuan')}}/"+id+'?is_perbaikan=1', function( data ) {
                     if (data.status === 1) {
                         doGenerate();
                     }
@@ -151,28 +140,25 @@
             function doEdit(id,i) {
                 let item = dataItem[i];
                 $('#editId').val(item['id']);
-                $('#editJenis').val(item['type']);
-                $('#editPernyataan').val(item['pernyataan']);
-                $('#editReferensi').val(item['referensi']);
-                $('#editReferensi').val(item['referensi']);
-                let html = '<a href="'+item['file']+'" class="mt-1" target="_blank" style="text-decoration: underline">check file</a>';
-                $('#checkFile').html(html);
+                $('#editArea').val(item['area']);
+                $('#editRecomended').val(item['recomended']);
+                $('#editPic').val(item['pic']);
+                $('#editTarget').val(item['target']);
                 $('#modalUpdate').modal('show');
             }
             async function doGenerate() {
-                $.getJSON( "{{adminUrl('pelaksanaan/list-temuan/'.$data->id)}}", function( data ) {
+                $.getJSON( "{{adminUrl('pelaksanaan/list-temuan/'.$data->id)}}?is_perbaikan=1", function( data ) {
                     let html = '';
                     let response = data.data;
                     dataItem = response;
                     $.each(response, function(i, item) {
                         html +=
                             '<tr> ' +
-                            '<td style="vertical-align: top !important;"> '+response[i].type+' </td> ' +
-                            '<td style="vertical-align: top !important;"> '+response[i].referensi+' </td> ' +
-                            '<td style="vertical-align: top !important;"> '+response[i].pernyataan+' </td> ' +
-                            '<td class="text-center" style="vertical-align: top !important;"> ' +
-                                '<label for="fileUpload" class="btn btn-light btn-custom-white btn-custom"> View </label> </td> ' +
-                            '<td class="text-center" style="display: flex;flex: 1;vertical-align: top !important;"> ' +
+                            '<td style="vertical-align: top !important;"> '+response[i].area+' </td> ' +
+                            '<td style="vertical-align: top !important;"> '+response[i].recomended+' </td> ' +
+                            '<td style="vertical-align: top !important;"> '+response[i].pic+' </td> ' +
+                            '<td class="text-center" style="vertical-align: top !important;">'+response[i].target+' </td>' +
+                            '<td class="text-center" style="display: flex;flex: 1;vertical-align: top !important;width: 160px !important; "> ' +
                                 '<button type="button" class="btn btn-light btn-custom-white btn-custom mr-2" onclick="doEdit('+response[i].id+','+i+')">Edit</button> ' +
                                 '<button type="button" class="btn btn-secondary btn-rounded save-button" onclick="doDelete('+response[i].id+')">Remove</button> ' +
                             '</td> ' +
