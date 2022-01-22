@@ -68,9 +68,11 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     Route::get('/template/delete/{id}', [MasterTemplateController::class, 'getDelete']);
     Route::get('/template/detail/{id}', [MasterTemplateController::class, 'getDetail']);
     Route::post('/template/save', [MasterTemplateController::class, 'postSaveData']);
+    Route::get('/template/success', [MasterTemplateController::class, 'getSuccess']);
     Route::get('/template/add-question', [MasterTemplateController::class, 'getAddQuestion']);
     Route::get('/template/update-question', [MasterTemplateController::class, 'getUpdateQuestion']);
     Route::post('/template/add/kriteria', [MasterTemplateController::class, 'postSaveKriteria']);
+    Route::get('/template/delete-kriteria', [MasterTemplateController::class, 'getDeleteKriteria']);
     Route::get('/template/update/kriteria', [MasterTemplateController::class, 'getUpdateKriteria']);
 
     Route::get('/penjadwalan', [PenjadwalanController::class, 'getIndex']);

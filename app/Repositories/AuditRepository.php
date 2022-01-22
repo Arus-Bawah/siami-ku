@@ -34,6 +34,7 @@ class AuditRepository extends Audit
             ->where(function ($q) use ($search) {
                 $q->where('audit.name', 'like', '%' . $search . '%');
             })
+            ->whereNull('deleted_at')
             ->paginate($limit);
     }
     public static function listOption() {

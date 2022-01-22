@@ -44,7 +44,7 @@
                         {{csrf_field()}}
                         <input type="hidden" name="master_template" class="form-control" placeholder="master_template" value="{{(isset($data) && $data->id?$data->id:"")}}">
                         <div class="modal-body">
-                            <input type="text" name="kriteria" class="form-control">
+                            <input type="text" name="kriteria" class="form-control" id="kriteria">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn bg-primary">Tambah Kriteria</button>
@@ -63,7 +63,7 @@
             $('#tambah-kelengkapan').on('click',function (){
                 $('#modal_default').modal('show');
             });
-            $('#saveKriteria').on('submit',function (event) {
+            $('#saveKriteria').on('submit',async function (event) {
                 var form= $("#saveKriteria");
                 $.ajax({
                     type: form.attr('method'),
@@ -76,6 +76,7 @@
                     }
                 });
                 doGenerateData();
+                $('#kriteria').val('');
                 event.preventDefault();
             });
             $(document).on('click', '.save-button', function(){
@@ -90,6 +91,9 @@
             });
             $(document).on('change', '.input-update', function(){
                 var value = $(this).val();
+                if (!value) {
+                    swal("Kriteria perlu diisi terlebih dahulu");
+                }
                 var id = $(this).attr("data-id");
                 let keterangan = $('#k-'+id).val();
                 $.getJSON( "{{adminUrl('template/update-question')}}?id="+id+"&value="+value+"&keterangan="+keterangan, function( data ) {
@@ -108,7 +112,21 @@
                     }
                 })
             });
-            function doGenerateData() {
+            function deleteKriteria(id) {
+                $.getJSON( "{{adminUrl('template/delete-kriteria')}}?id="+id, function( data ) {
+                    if (data.status === 1) {
+                        doGenerateData();
+                    }
+                })
+            }
+            function deleteKriteriaWithType(id) {
+                $.getJSON( "{{adminUrl('template/delete-kriteria')}}?id="+id+'&type=quest', function( data ) {
+                    if (data.status === 1) {
+                        doGenerateData();
+                    }
+                })
+            }
+            async function doGenerateData() {
                 $('#empty').hide();
                 $('#field-kelengkapan').empty();
                 var html = '';
@@ -128,17 +146,21 @@
                             '</tr> ';
                         let qa = response[i].question;
                         $.each(qa, function(l, k) {
+                            let ket = '';
+                            if (qa[l].keterangan !== null) {
+                                ket = qa[l].keterangan;
+                            }
                             a += '<tr class="table-td"> ' +
                                 '<td class="border-right-1"> ' +
                                 '<input type="text" class="form-control input-update" value="'+qa[l].question+'" id="q-'+qa[l].id+'" data-id="'+qa[l].id+'"> ' +
                                 '</td> ' +
                                 '<td class="border-right-1"> ' +
-                                '<input type="text" class="form-control keterangan-update" value="'+qa[l].keterangan+'" id="k-'+qa[l].id+'" data-id="'+qa[l].id+'"> ' +
+                                '<input type="text" class="form-control keterangan-update" value="'+ket+'" id="k-'+qa[l].id+'" data-id="'+qa[l].id+'"> ' +
                                 '</td> ' +
                                 '<td class="text-center"> ' +
                                 '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-down"></i></button> ' +
                                 '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-up"></i></button> ' +
-                                '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-trash"></i></button> ' +
+                                '<button class="btn btn-light btn-rounded btn-white btn-sm" onclick="deleteKriteriaWithType('+qa[l].id+')"><i class="icon-trash"></i></button> ' +
                                 '</td> ' +
                                 '</tr> ';
                         })
@@ -150,7 +172,7 @@
                             '<td class="text-center" style="width: 200px;"> ' +
                             '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-down"></i></button> ' +
                             '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-up"></i></button> ' +
-                            '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-trash"></i></button> ' +
+                            '<button class="btn btn-light btn-rounded btn-white btn-sm" onclick="deleteKriteria('+response[i].id+')"><i class="icon-trash"></i></button> ' +
                             '</td> ' +
                             '</tr>' +
                             '</thead>' +
@@ -163,7 +185,7 @@
                             '</tbody>';
                     })
                 }).done(function (){
-                    $('#field-kelengkapan').prepend(html);
+                    $('#field-kelengkapan').html(html);
                 });
             }
         </script>
