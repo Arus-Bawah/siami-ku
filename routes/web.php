@@ -47,8 +47,17 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     Route::get('/pelaksanaan/add', [PelaksanaanController::class, 'getAdd']);
     Route::get('/pelaksanaan/edit/{id}', [PelaksanaanController::class, 'getEdit']);
     Route::get('/pelaksanaan/audit/{id}', [PelaksanaanController::class, 'getAudit']);
+    Route::get('/pelaksanaan/submit-audit/{id}', [PelaksanaanController::class, 'getSubmitAudit']);
+    Route::get('/pelaksanaan/do-audit/{id}', [PelaksanaanController::class, 'getDoAudit']);
+    Route::get('/pelaksanaan/do-temuan/{id}', [PelaksanaanController::class, 'getTemuan']);
+    Route::get('/pelaksanaan/do-perbaikan/{id}', [PelaksanaanController::class, 'getPerbaikan']);
+    Route::post('/pelaksanaan/do-temuan/save/{id}', [PelaksanaanController::class, 'postTemuanSubmit']);
+    Route::get('/pelaksanaan/list-temuan/{id}', [PelaksanaanController::class, 'getListTemuan']);
+    Route::get('/pelaksanaan/delete-temuan/{id}', [PelaksanaanController::class, 'getDeleteTemuan']);
+    Route::get('/pelaksanaan/data-audit/{id}', [PelaksanaanController::class, 'getAuditData']);
     Route::get('/pelaksanaan/delete/{id}', [PelaksanaanController::class, 'getDelete']);
     Route::post('/pelaksanaan/save', [PelaksanaanController::class, 'postSaveData']);
+    Route::post('/pelaksanaan/save-answer', [PelaksanaanController::class, 'postSaveAnswer']);
 
     Route::get('/template', [MasterTemplateController::class, 'getIndex']);
     Route::get('/template/list-data', [MasterTemplateController::class, 'getListData']);
@@ -59,9 +68,11 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     Route::get('/template/delete/{id}', [MasterTemplateController::class, 'getDelete']);
     Route::get('/template/detail/{id}', [MasterTemplateController::class, 'getDetail']);
     Route::post('/template/save', [MasterTemplateController::class, 'postSaveData']);
+    Route::get('/template/success', [MasterTemplateController::class, 'getSuccess']);
     Route::get('/template/add-question', [MasterTemplateController::class, 'getAddQuestion']);
     Route::get('/template/update-question', [MasterTemplateController::class, 'getUpdateQuestion']);
     Route::post('/template/add/kriteria', [MasterTemplateController::class, 'postSaveKriteria']);
+    Route::get('/template/delete-kriteria', [MasterTemplateController::class, 'getDeleteKriteria']);
     Route::get('/template/update/kriteria', [MasterTemplateController::class, 'getUpdateKriteria']);
 
     Route::get('/penjadwalan', [PenjadwalanController::class, 'getIndex']);
@@ -156,4 +167,19 @@ Route::group(['prefix' => 'admin', "namespace" => 'Admin', 'middleware' => ['adm
     Route::get('/menu-manajemen', [AdminCmsMenuController::class, 'getIndex']);
     Route::post('/menu-manajemen/add', [AdminCmsMenuController::class, 'postAdd']);
     Route::post('/menu-manajemen/save-menu', [AdminCmsMenuController::class, 'postSaveMenu']);
+});
+
+Route::get('/export/pdf', function(){
+    $pdf = \Illuminate\Support\Facades\App::make('dompdf.wrapper');
+    $pdf->loadView('export.audit-internal', []);
+    $pdf->setOptions([
+        'dpi' => 150,
+        'defaultFont' => 'sans-serif',
+        'font_height_ratio' => '1'
+    ]);
+    $pdf->setPaper('A4', 'portrait');
+//    $pdf = PDF::loadView('export.audit-internal', []);
+    return $pdf->stream();
+
+//    return view('export.audit-internal', []);
 });
