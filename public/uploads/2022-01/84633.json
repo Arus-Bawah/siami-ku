@@ -1,0 +1,2016 @@
+{
+	"info": {
+		"_postman_id": "b1503704-d547-4c20-9ab9-f8bb3f913cbd",
+		"name": "Burger Bangor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();\r",
+									"if(json.data.token){\r",
+									"    pm.environment.set(\"burger_token\", json.data.token);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "MjAyMS0wOC0xOHxKeWw1ZkZqQzBnV1BxZ2U=",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "BURGER-BANGOR",
+									"type": "string"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/auth/token",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Request Token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{mpm}}/auth/token",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 15 Jul 2020 16:28:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=ef19jjdwxhuMjFhuSBDjSFuZP63xIKz4fJdG3Qcn; expires=Wed, 15-Jul-2020 20:38:29 GMT; Max-Age=14999; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "134"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"message\": \"success\",\n    \"data\": {\n        \"token\": \"$2y$10$/DBlrTb6oeBx3f1COyDcVeMayEMRSNVen.DdNMUG2NqL.YCAAnkCy\",\n        \"expired\": 1595089709\n    }\n}"
+						},
+						{
+							"name": "Get Token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ssc}}/auth/token",
+									"host": [
+										"{{ssc}}"
+									],
+									"path": [
+										"auth",
+										"token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Tue, 08 Sep 2020 06:23:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.34 (Unix) mod_wsgi/3.5 Python/2.7.13 PHP/7.2.1 mod_ssl/2.2.34 OpenSSL/1.0.2j DAV/2 mod_fastcgi/2.4.6 mod_perl/2.0.9 Perl/v5.24.0"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=D7XyYtxVkd6GpC7bVYbjiMH08eQrxMOwdCnBVYNo; expires=Tue, 08-Sep-2020 10:33:09 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "151"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"token\": \"$2y$10$ne.PYTOoiF3jZw/1jsKkg.l36W6DhdByNb0zGbUQR36Wo7ezD4f36\",\n        \"expired\": 1599805389\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Renew Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();\r",
+									"if(json.data.token){\r",
+									"    pm.environment.set(\"burger_token\", json.data.token);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{burger}}/auth/token/renew",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"auth",
+								"token",
+								"renew"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Renew Token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{mpm_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{mpm}}/auth/token/renew",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"token",
+										"renew"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 15 Jul 2020 16:37:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=ef19jjdwxhuMjFhuSBDjSFuZP63xIKz4fJdG3Qcn; expires=Wed, 15-Jul-2020 20:47:29 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "133"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=98"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"message\": \"success\",\n    \"data\": {\n        \"token\": \"$2y$10$YpCUrytylPBUN.udOuzDl..8DbwtzQtSzH0Kpd4dgaYKrjzuY2KPS\",\n        \"expired\": 1595090249\n    }\n}"
+						},
+						{
+							"name": "Renew Token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{ssc_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{ssc}}/auth/token/renew",
+									"host": [
+										"{{ssc}}"
+									],
+									"path": [
+										"auth",
+										"token",
+										"renew"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 09 Sep 2020 07:03:08 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.34 (Unix) mod_wsgi/3.5 Python/2.7.13 PHP/7.2.1 mod_ssl/2.2.34 OpenSSL/1.0.2j DAV/2 mod_fastcgi/2.4.6 mod_perl/2.0.9 Perl/v5.24.0"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=Q6A0PjW7YoDZGsBrIad0SdMIHinnfOgKJtyvjx3Z; expires=Wed, 09-Sep-2020 11:13:09 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "153"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"token\": \"$2y$10$kGxqpzIzGpZ3mNjdkBqYJ./r/LdrVMfyE1/3rSJWsIL2IbE2Lq1cC\",\n        \"expired\": 1599894189\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"type": "text",
+								"value": "{{burger_token}}"
+							},
+							{
+								"key": "regid",
+								"type": "text",
+								"value": "1234562212"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "adam@crocodic.com",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "student",
+									"description": "student|teacher",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ssc}}/auth/reset",
+							"host": [
+								"{{ssc}}"
+							],
+							"path": [
+								"auth",
+								"reset"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login : Customer",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{mpm_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id_perusahan",
+											"value": "744",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "customer",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "laililmahvut@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{mpm}}/auth/login",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Jul 2020 03:25:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=HLD7JrwEAepr40gBlfQcWAh5tjGrqz5D6HkvYJNF; expires=Thu, 16-Jul-2020 07:35:30 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "268"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=99"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 3,\n        \"foto\": \"http://localhost/crocodic/mpm/public/uploads/2020-07/35018.png\",\n        \"nama\": \"Muhammad Lailil Mahfud\",\n        \"email\": \"laililmahvut@gmail.com\",\n        \"telfon\": \"0857474663743\",\n        \"id_debitor\": 744,\n        \"type\": \"driver\"\n    }\n}"
+						},
+						{
+							"name": "Login : Driver",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{mpm_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id_perusahan",
+											"value": "744",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "driver",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "alim@crocodic.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{mpm}}/auth/login",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Jul 2020 03:21:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=HLD7JrwEAepr40gBlfQcWAh5tjGrqz5D6HkvYJNF; expires=Thu, 16-Jul-2020 07:31:19 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "259"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 2,\n        \"foto\": \"http://localhost/crocodic/mpm/public/uploads/2020-07/76846.jpg\",\n        \"nama\": \"Ahmad Alim Fathoni\",\n        \"email\": \"alim@crocodic.com\",\n        \"telfon\": \"0857474663743\",\n        \"id_debitor\": 744,\n        \"type\": \"driver\"\n    }\n}"
+						},
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{ssc_token}}",
+										"type": "text"
+									},
+									{
+										"key": "regid",
+										"value": "123456",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "adam@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "student",
+											"description": "teacher|student",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										},
+										{
+											"key": "regid",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ssc}}/auth/login",
+									"host": [
+										"{{ssc}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 09 Sep 2020 07:03:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.34 (Unix) mod_wsgi/3.5 Python/2.7.13 PHP/7.2.1 mod_ssl/2.2.34 OpenSSL/1.0.2j DAV/2 mod_fastcgi/2.4.6 mod_perl/2.0.9 Perl/v5.24.0"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=Q6A0PjW7YoDZGsBrIad0SdMIHinnfOgKJtyvjx3Z; expires=Wed, 09-Sep-2020 11:13:20 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "429"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 1,\n        \"photo\": null,\n        \"name\": \"Adam\",\n        \"no_phone\": \"081390095352\",\n        \"email\": \"adam@gmail.com\",\n        \"birth\": \"1996-11-29\",\n        \"education_stage_id\": 3,\n        \"grade\": 10,\n        \"majors\": 1,\n        \"city_id\": null,\n        \"citizen\": \"Indonesia\",\n        \"password\": \"$2y$10$NYeKFXJrlz8HUHnfo2IaGuLAl35SZkWsJp.RXoGuyat1LdkiUrWkm\",\n        \"regid\": \"123456\",\n        \"is_member\": null,\n        \"chat_consult\": null,\n        \"live_consult\": null,\n        \"created_at\": \"2020-09-08 07:23:55\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "d5OPD1QATzCtD58WaJYjJF:APA91bExs0nDurBqvgA1V_umdILxab_eJBsd8wUa51TCaxtHS2YoYHOGPql3SgW6sTMQjYiaRmtLN-YPdYFguEpfyxZfd7-qgvHLi7Fzc5k-RpOqENhyOPRmkc8iRwV9clLX3Kc5vNHX",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ssc}}/auth/logout",
+							"host": [
+								"{{ssc}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Logout",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{mpm_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{mpm}}/auth/logout",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 17 Jul 2020 03:46:33 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=naCVgMyiUnAYoBfocCnEMYxHlrdgtaoz4moiciUR; expires=Fri, 17-Jul-2020 07:56:33 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"Terimakasih, silahkan login lagi\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "d5OPD1QATzCtD58WaJYjJF:APA91bExs0nDurBqvgA1V_umdILxab_eJBsd8wUa51TCaxtHS2YoYHOGPql3SgW6sTMQjYiaRmtLN-YPdYFguEpfyxZfd7-qgvHLi7Fzc5k-RpOqENhyOPRmkc8iRwV9clLX3Kc5vNHX",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "081390095352",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "customer",
+									"description": "outlet|customer",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "regid",
+									"value": "d5OPD1QATzCtD58WaJYjJF:APA91bExs0nDurBqvgA1V_umdILxab_eJBsd8wUa51TCaxtHS2YoYHOGPql3SgW6sTMQjYiaRmtLN-YPdYFguEpfyxZfd7-qgvHLi7Fzc5k-RpOqENhyOPRmkc8iRwV9clLX3Kc5vNHX",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/auth/login",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login : Customer",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{mpm_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id_perusahan",
+											"value": "744",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "customer",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "laililmahvut@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{mpm}}/auth/login",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Jul 2020 03:25:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=HLD7JrwEAepr40gBlfQcWAh5tjGrqz5D6HkvYJNF; expires=Thu, 16-Jul-2020 07:35:30 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "268"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=99"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 3,\n        \"foto\": \"http://localhost/crocodic/mpm/public/uploads/2020-07/35018.png\",\n        \"nama\": \"Muhammad Lailil Mahfud\",\n        \"email\": \"laililmahvut@gmail.com\",\n        \"telfon\": \"0857474663743\",\n        \"id_debitor\": 744,\n        \"type\": \"driver\"\n    }\n}"
+						},
+						{
+							"name": "Login : Driver",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{mpm_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "id_perusahan",
+											"value": "744",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "driver",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "alim@crocodic.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{mpm}}/auth/login",
+									"host": [
+										"{{mpm}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 16 Jul 2020 03:21:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.29 (Win32) OpenSSL/1.1.0g PHP/7.2.1"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=HLD7JrwEAepr40gBlfQcWAh5tjGrqz5D6HkvYJNF; expires=Thu, 16-Jul-2020 07:31:19 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "259"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 2,\n        \"foto\": \"http://localhost/crocodic/mpm/public/uploads/2020-07/76846.jpg\",\n        \"nama\": \"Ahmad Alim Fathoni\",\n        \"email\": \"alim@crocodic.com\",\n        \"telfon\": \"0857474663743\",\n        \"id_debitor\": 744,\n        \"type\": \"driver\"\n    }\n}"
+						},
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Access-Token",
+										"value": "{{ssc_token}}",
+										"type": "text"
+									},
+									{
+										"key": "regid",
+										"value": "123456",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "adam@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "student",
+											"description": "teacher|student",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										},
+										{
+											"key": "regid",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ssc}}/auth/login",
+									"host": [
+										"{{ssc}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 09 Sep 2020 07:03:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.2.34 (Unix) mod_wsgi/3.5 Python/2.7.13 PHP/7.2.1 mod_ssl/2.2.34 OpenSSL/1.0.2j DAV/2 mod_fastcgi/2.4.6 mod_perl/2.0.9 Perl/v5.24.0"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.2.1"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "lumen_session=Q6A0PjW7YoDZGsBrIad0SdMIHinnfOgKJtyvjx3Z; expires=Wed, 09-Sep-2020 11:13:20 GMT; Max-Age=15000; path=/; httponly"
+								},
+								{
+									"key": "Content-Length",
+									"value": "429"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 1,\n    \"type\": \"success\",\n    \"message\": \"success\",\n    \"data\": {\n        \"id\": 1,\n        \"photo\": null,\n        \"name\": \"Adam\",\n        \"no_phone\": \"081390095352\",\n        \"email\": \"adam@gmail.com\",\n        \"birth\": \"1996-11-29\",\n        \"education_stage_id\": 3,\n        \"grade\": 10,\n        \"majors\": 1,\n        \"city_id\": null,\n        \"citizen\": \"Indonesia\",\n        \"password\": \"$2y$10$NYeKFXJrlz8HUHnfo2IaGuLAl35SZkWsJp.RXoGuyat1LdkiUrWkm\",\n        \"regid\": \"123456\",\n        \"is_member\": null,\n        \"chat_consult\": null,\n        \"live_consult\": null,\n        \"created_at\": \"2020-09-08 07:23:55\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "081390095352",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "regid",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Adam Projo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/register",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "081390095352",
+									"type": "text"
+								},
+								{
+									"key": "otp",
+									"value": "9498",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/check-otp",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"check-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/update-password",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Address Book Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "name_receiver",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "detail_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "latitude",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/add-address",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"add-address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Address Book Edit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "name_receiver",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "detail_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "latitude",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/edit-address",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"edit-address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Address Book List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/customer/list-address",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"list-address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Default Address Book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/set-address",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"set-address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "d5OPD1QATzCtD58WaJYjJF:APA91bExs0nDurBqvgA1V_umdILxab_eJBsd8wUa51TCaxtHS2YoYHOGPql3SgW6sTMQjYiaRmtLN-YPdYFguEpfyxZfd7-qgvHLi7Fzc5k-RpOqENhyOPRmkc8iRwV9clLX3Kc5vNHX",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "outlet_id",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "type_order",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_detail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "to_address_name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "to_address",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "to_address_detail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "to_address_phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "payment_type",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "sub_total",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "discount_promo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "discount_point",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "delivery_fee",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "grand_total",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "item",
+									"value": "[{\"product_id\":1,\"note\":\"Jangan pedas\"}]",
+									"description": "json text",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/customer/create-order",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"customer",
+								"create-order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Global",
+			"item": [
+				{
+					"name": "Promo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/splashscreen",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"splashscreen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Splashscreen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/list-help",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"list-help"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Help",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/term",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"term"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Term",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/term",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"term"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "About",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/about",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"about"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "type",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "outlet_id",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "message",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/global/contact",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Topic",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/topic",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"topic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kemitraan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/kemitraan",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"kemitraan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kemitraan Form",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{burger}}/global/kemitraan-form",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"kemitraan-form"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Setting Default",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Access-Token",
+								"value": "{{burger_token}}",
+								"type": "text"
+							},
+							{
+								"key": "regid",
+								"value": "123456",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/setting",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"setting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/list-product",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"list-product"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Outlets",
+			"item": [
+				{
+					"name": "List Outlet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{burger}}/global/outlet",
+							"host": [
+								"{{burger}}"
+							],
+							"path": [
+								"global",
+								"outlet"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

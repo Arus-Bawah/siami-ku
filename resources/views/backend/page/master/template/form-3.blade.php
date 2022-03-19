@@ -10,7 +10,7 @@
                     </div>
                     <div class="header-elements" style="margin-top: -20px;">
                         <a href="javascript:;" class="btn btn-xs btn-secondary border-2 ml-1" id="tambah-kelengkapan">Tambah Capaian standar</a>
-                        <a href="javascript:;" class="btn btn-xs btn-primary border-2 ml-1">Simpan</a>
+                        <a href="{{adminUrl('template/success')}}" class="btn btn-xs btn-primary border-2 ml-1">Simpan</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -26,7 +26,7 @@
                         </table>
                     </div>
                     <div class="text-right">
-                        <a href="" class="btn btn-primary">Simpan</a>
+                        <a href="{{adminUrl('template/success')}}" class="btn btn-primary">Simpan</a>
                     </div>
                 </div>
             </div>
@@ -136,6 +136,21 @@
                 })
             });
 
+            function deleteKriteria(id) {
+                $.getJSON( "{{adminUrl('template/delete-kriteria')}}?id="+id, function( data ) {
+                    if (data.status === 1) {
+                        doGenerateData();
+                    }
+                })
+            }
+            function deleteKriteriaWithType(id) {
+                $.getJSON( "{{adminUrl('template/delete-kriteria')}}?id="+id+'&type=quest', function( data ) {
+                    if (data.status === 1) {
+                        doGenerateData();
+                    }
+                })
+            }
+
             function doGenerateData() {
                 $('#empty').hide();
                 $('#field-kelengkapan').empty();
@@ -160,7 +175,7 @@
                                 '<td class="text-center"> ' +
                                 '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-down"></i></button> ' +
                                 '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-up"></i></button> ' +
-                                '<button class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-trash"></i></button> ' +
+                                '<button class="btn btn-light btn-rounded btn-white btn-sm" onclick="deleteKriteriaWithType('+qa[l].id+')"><i class="icon-trash"></i></button> ' +
                                 '</td> ' +
                                 '</tr> ';
                         })
@@ -171,7 +186,7 @@
                             '<td class="text-center" style="width: 200px;"> ' +
                             '<button type="button" class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-down"></i></button> ' +
                             '<button type="button" class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-chevron-up"></i></button> ' +
-                            '<button type="button" class="btn btn-light btn-rounded btn-white btn-sm"><i class="icon-trash"></i></button> ' +
+                            '<button type="button" class="btn btn-light btn-rounded btn-white btn-sm" onclick="deleteKriteria('+response[i].id+')"><i class="icon-trash"></i></button> ' +
                             '</td> ' +
                             '</tr> ' +
                             '</thead> ' +

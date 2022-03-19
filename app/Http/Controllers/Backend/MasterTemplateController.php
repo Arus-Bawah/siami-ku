@@ -109,6 +109,30 @@ class MasterTemplateController extends Controller
 
         return response()->json($data);
     }
+    public function getDeleteKriteria() {
+        $id = g('id');
+        if (!g('type')) {
+            MasterTemplateCategory::table()
+                ->where('id',$id)
+                ->delete();
+        }
+
+        MasterTemplateQuestion::table()
+            ->where(function ($q) use ($id) {
+                if (g('type')) {
+                    $q->where('id',$id);
+                }else{
+                    $q->where('master_template_category',$id);
+                }
+            })
+            ->delete();
+
+        $data['status'] = 1;
+        return response()->json($data);
+    }
+    public function getSuccess() {
+        return redirect(adminUrl('template'))->with(["message"=>"Success update data","type"=>"success"]);
+    }
     public function getAddQuestion() {
         $new = new MasterTemplateQuestion();
         $new->master_template_category = g('id');
@@ -117,7 +141,7 @@ class MasterTemplateController extends Controller
         $new->capaian = g('capaian');
         $new->save();
 
-        if ($new) {
+        if (!empty($new)) {
             $data['status'] = 1;
             return response()->json($data);
         }
@@ -129,7 +153,7 @@ class MasterTemplateController extends Controller
         $new->capaian = g('capaian');
         $new->save();
 
-        if ($new) {
+        if (!empty($new)) {
             $data['status'] = 1;
             return response()->json($data);
         }

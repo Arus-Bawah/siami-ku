@@ -127,9 +127,7 @@ class PenjadwalanController extends Controller
         return redirect(g('return_url'))->with(["message"=>"Success insert data","type"=>"success"]);
     }
     public function getDelete($id){
-        $find['status_publish'] = null;
-        $find['code'] = null;
-        $find['unit'] = null;
+        $find['delete_at'] = date('Y-m-d H:i:s');
         Audit::table()->where('id',$id)->update($find);
         return redirect(g('return_url'))->with(["message"=>"Success delete data","type"=>"danger"]);
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AuditKelengkapanAnswer extends Migration
+class AuditKelengkapanAnswersData extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,12 @@ class AuditKelengkapanAnswer extends Migration
     public function up()
     {
         //
-        Schema::create('audit_kelengkapan', function (Blueprint $table) {
+        Schema::create('audit_kelengkapan_answer', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('audit_id')->nullable();
-            $table->string('answer_by')->nullable();
-            $table->integer('users_id')->nullable();
+            $table->integer('audit_kelengkapan')->nullable();
+            $table->text('keterangan')->nullable();
+            $table->string('file')->nullable();
+            $table->string('action')->nullable();
             $table->timestamps();
         });
     }

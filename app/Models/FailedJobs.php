@@ -11,9 +11,10 @@ class FailedJobs extends Model
 
     public $primary_key = "id";
 
-
+    
 	public $id;
 	public $uuid;
+	public $connection;
 	public $queue;
 	public $payload;
 	public $exception;
