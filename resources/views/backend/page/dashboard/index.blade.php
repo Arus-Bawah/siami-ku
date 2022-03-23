@@ -1,6 +1,6 @@
 @extends('backend.layout.template')
 @section('content')
-    <div class="col-xl-12">
+    <div class="col-xl-12" style="display: none;">
 
         <!-- Marketing campaigns -->
         <div class="card">

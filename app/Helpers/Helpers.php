@@ -1,4 +1,13 @@
 <?php
+if (! function_exists('getImageFromPathToBase64')) {
+    function getImageFromPathToBase64($path)
+    {
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        return 'data:image/' . $type . ';base64,' . base64_encode($data);
+    }
+}
+
 if (! function_exists('fullUrl')) {
     function fullUrl()
     {
