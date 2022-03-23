@@ -60,9 +60,15 @@ class UsersAdminController extends Controller
             }else{
                 $new = new CmsUsers();
             }
-            $new->name = g('name');
-            $new->username = g('username');
-            $new->email = g('email');
+            if(g('name')) {
+                $new->name = g('name');
+            }
+            if (g('username')) {
+                $new->username = g('username');
+            }
+            if (g('email')) {
+                $new->email = g('email');
+            }
             if (g('password')){
                 $new->password = Hash::make(g('password'));
             }

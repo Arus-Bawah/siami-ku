@@ -48,6 +48,7 @@ class PenjadwalanController extends Controller
         $data['template'] = MasterTemplateRepository::listOption();
         $data['auditor'] = CmsUsersRepository::getByPrivileges('Auditor');
         $data['auditee'] = CmsUsersRepository::getByPrivileges('Auditee');
+        $data['list_anggota'] = CmsUsersRepository::findAllDesc();
         $data['anggota'] = [];
         $data['kriteria'] = [];
         return view(adminView('penjadwalan.form'),$data);

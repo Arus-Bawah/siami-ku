@@ -10,6 +10,18 @@
                         <input type="hidden" name="edit" value="{{$edit}}">
                         <input type="hidden" name="id" class="form-control" placeholder="id" value="{{(isset($data) && $data->id?$data->id:"")}}">
                         <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Unit Lembaga:</label>
+                            <div class="col-lg-9">
+                                <select required name="unit" id="unit" class="form-control">
+                                    <option value="">Pilih Unit</option>
+                                    <option value="Fakultas" {{(isset($data) && $data->id && $data->unit == 'Fakultas' ?"selected":"")}} >Fakultas</option>
+                                    <option value="Progdi" {{(isset($data) && $data->id && $data->unit == 'Progdi' ?"selected":"")}}>Progdi</option>
+                                    <option value="Lembaga" {{(isset($data) && $data->id && $data->unit == 'Lembaga' ?"selected":"")}}>Lembaga</option>
+                                    <option value="Biro" {{(isset($data) && $data->id && $data->unit == 'Biro' ?"selected":"")}}>Biro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Audit template:</label>
                             <div class="col-lg-9">
                                 <select data-placeholder="Pilih Audit Template" required name="template_code" id="template_code" class="form-control form-control-select2" data-fouc>
@@ -28,18 +40,6 @@
                                     @foreach($fakultas as $row)
                                         <option value="{{$row->id}}"  {{(isset($data) && $data->id && $data->fakultas_id == $row->id ?"selected":"")}}>{{$row->name}}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-3 col-form-label">Unit Lembaga:</label>
-                            <div class="col-lg-9">
-                                <select required name="unit" id="unit" class="form-control">
-                                    <option value="">Pilih Unit</option>
-                                    <option value="Fakultas" {{(isset($data) && $data->id && $data->unit == 'Fakultas' ?"selected":"")}} >Fakultas</option>
-                                    <option value="Progdi" {{(isset($data) && $data->id && $data->unit == 'Progdi' ?"selected":"")}}>Progdi</option>
-                                    <option value="Lembaga" {{(isset($data) && $data->id && $data->unit == 'Lembaga' ?"selected":"")}}>Lembaga</option>
-                                    <option value="Biro" {{(isset($data) && $data->id && $data->unit == 'Biro' ?"selected":"")}}>Biro</option>
                                 </select>
                             </div>
                         </div>
@@ -124,24 +124,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row mb-0">
+                        <div class="form-group row mb-3">
                             <label class="col-lg-3 col-form-label">Anggota Auditor:</label>
-                            <div class="col-lg-9">
-                                <div id="field-dynamic">
-                                    @foreach($anggota as $row)
-                                        <div class="entry input-group mb-3">
-                                            <input class="form-control" name="anggota[]" type="text" value="{{$row->name}}" placeholder="Anggota Auditor">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-remove btn-danger" type="button"><span class="icon-pen-plus"></span></button>
-                                            </span>
-                                        </div>
+                            <div class="col-lg-9" style="display: flex;flex: 1">
+                                <select name="" data-placeholder="Masukan nama anggota" id="anggota-option"  class="form-control form-control-select2" data-fouc>
+                                    @foreach($list_anggota as $row)
+                                        <option value="{{$row->id}}" data-name="{{$row->name}}">{{$row->name}}</option>
                                     @endforeach
-                                    <div class="entry input-group mb-3">
-                                        <input class="form-control" name="anggota[]" type="text" placeholder="Anggota Auditor" />
-                                        <span class="input-group-btn">
-                                        <button class="btn btn-success btn-add" type="button"><span class="icon-pen-plus"></span></button>
-                                    </span>
-                                    </div>
+                                </select>
+                                <div>
+                                    <button type="button" class="btn btn-primary" onclick="doAdd()"><i class="icon-plus2"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-9">
+                                <div class="list-name">
+                                    <table class="table table-borderless" id="table-list">
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -162,6 +164,22 @@
         </div>
     </div>
     @push('bottom')
+        <script>
+            function doDelete(id) {
+                $('#list-'+id).remove();
+            }
+            function doAdd() {
+                let name = $('#anggota-option').select2().find(":selected").attr("data-name");
+                let value = $('#anggota-option').select2().val();
+                var html =
+                    '<tr class="table table-borderless" id="list-'+value+'"> ' +
+                    '<td style="width: 200px;"> <input name="anggota[]" type="hidden" value="'+value+'">'+name+'</td> ' +
+                    '<td> <button type="button" class="btn btn-danger btn-sm" onclick="doDelete('+value+')"><i class="icon-trash"></i></button> </td> ' +
+                    '</tr>'
+
+                $('#table-list').append(html);
+            }
+        </script>
         <script src="{{asset('global_assets/js/plugins/forms/selects/select2.min.js')}}"></script>
         <script src="{{asset('global_assets/js/demo_pages/form_select2.js')}}"></script>
         <script>
@@ -194,29 +212,29 @@
             })
         </script>
         <script>
-            $(function()
-            {
-                $(document).on('click', '.btn-add', function(e)
-                {
-                    e.preventDefault();
-
-                    var controlForm = $('#field-dynamic:first'),
-                        currentEntry = $(this).parents('.entry:first'),
-                        newEntry = $(currentEntry.clone()).appendTo(controlForm);
-
-                    newEntry.find('input').val('');
-                    controlForm.find('.entry:not(:last) .btn-add')
-                        .removeClass('btn-add').addClass('btn-remove')
-                        .removeClass('btn-success').addClass('btn-danger')
-                        .html('<span class="icon-pen-plus"></span>');
-                }).on('click', '.btn-remove', function(e)
-                {
-                    $(this).parents('.entry:first').remove();
-
-                    e.preventDefault();
-                    return false;
-                });
-            });
+            // $(function()
+            // {
+            //     $(document).on('click', '.btn-add', function(e)
+            //     {
+            //         e.preventDefault();
+            //
+            //         var controlForm = $('#field-dynamic:first'),
+            //             currentEntry = $(this).parents('.entry:first'),
+            //             newEntry = $(currentEntry.clone()).appendTo(controlForm);
+            //
+            //         newEntry.find('input').val('');
+            //         controlForm.find('.entry:not(:last) .btn-add')
+            //             .removeClass('btn-add').addClass('btn-remove')
+            //             .removeClass('btn-success').addClass('btn-danger')
+            //             .html('<span class="icon-pen-plus"></span>');
+            //     }).on('click', '.btn-remove', function(e)
+            //     {
+            //         $(this).parents('.entry:first').remove();
+            //
+            //         e.preventDefault();
+            //         return false;
+            //     });
+            // });
         </script>
         <script>
             $('#addkriteria').on('click',function () {
