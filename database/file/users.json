@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Admin LPM",
+        "email": "lpm@test.com",
+        "role" : "LPM",
+        "foto": "assets/image/logo-lpm.jpg",
+        "jabatan": null,
+        "tanda_tangan": null,
+        "unit_tipe_id": null
+    },
+    {
+        "id": 2,
+        "name": "User Fakultas",
+        "email": "fakultas@test.com",
+        "role" : "User",
+        "foto": "assets/image/logo-udinus.jpg",
+        "jabatan": "Dekan",
+        "tanda_tangan": "assets/image/signature.png",
+        "unit_tipe_id": 1
+    },
+    {
+        "id": 3,
+        "name": "User Prodi",
+        "email": "prodi@test.com",
+        "role" : "User",
+        "foto": "assets/image/logo-udinus.jpg",
+        "jabatan": "Kaprodi",
+        "tanda_tangan": "assets/image/signature.png",
+        "unit_tipe_id": 2
+    },
+    {
+        "id": 4,
+        "name": "User BIRO",
+        "email": "biro@test.com",
+        "role" : "User",
+        "foto": "assets/image/logo-udinus.jpg",
+        "jabatan": "Ketua Biro",
+        "tanda_tangan": "assets/image/signature.png",
+        "unit_tipe_id": 3
+    },
+    {
+        "id": 5,
+        "name": "User Lab",
+        "email": "lab@test.com",
+        "role" : "User",
+        "foto": "assets/image/logo-udinus.jpg",
+        "jabatan": "Ketua Lab",
+        "tanda_tangan": "assets/image/signature.png",
+        "unit_tipe_id": 4
+    },
+    {
+        "id": 6,
+        "name": "User Lembaga",
+        "email": "lembaga@test.com",
+        "role" : "User",
+        "foto": "assets/image/logo-udinus.jpg",
+        "jabatan": "Ketua Lembaga",
+        "tanda_tangan": "assets/image/signature.png",
+        "unit_tipe_id": 5
+    },
+    {
+        "id": 7,
+        "name": "User UPT",
+        "email": "upt@test.com",
+        "role" : "User",
+        "foto": "assets/image/logo-udinus.jpg",
+        "jabatan": "Ketua UPT",
+        "tanda_tangan": "assets/image/signature.png",
+        "unit_tipe_id": 6
+    }
+]

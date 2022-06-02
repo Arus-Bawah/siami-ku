@@ -1,0 +1,62 @@
+/* Loading CSS */
+@import url("loading.css");
+
+:root {
+    --blue: #007bff;
+    --blue_donker: #27136b;
+    --red: #e61d25;
+    --white: #ffffff;
+}
+
+.swal2-icon.swal2-success,
+.swal2-icon.swal2-info,
+.swal2-icon.swal2-warning,
+.swal2-icon.swal2-error {
+    font-size: 1rem;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+.page-container {
+    min-height: 100vh;
+}
+
+.navbar-header .navbar-brand-md {
+    width: 100%;
+    display: flex;
+}
+
+.navbar-header .navbar-brand span {
+    margin-left: 14px;
+    font-family: Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.sidebar {
+    background-color: var(--blue);
+}
+
+.navbar-brand img {
+    height: 2rem;
+}
+
+.sidebar-dark .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-dark .nav-sidebar>.nav-item-open>.nav-link:not(.disabled) {
+    background: rgba(0, 0, 0, .15);
+}
+
+.page-content {
+    min-height: calc(100vh - 65px);
+}
+
+.table img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-tabs-bottom .nav-link.active:before {
+    background-color: #ef5350;
+}
