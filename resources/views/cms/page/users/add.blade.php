@@ -176,7 +176,14 @@
 
                                         <div class="tab-pane fade show active" id="signatureDraw">
                                             <div class="row">
-                                                <div class="col-md-12 relative">
+                                                <div class="col">
+                                                    <p>
+                                                        Use a touchpad, mouse, phone, tablet or other mobile devices to draw
+                                                        a free downloadable electronic signature.
+                                                        Customize smoothing, color and more.
+                                                    </p>
+                                                </div>
+                                                <div class="col relative">
                                                     <canvas></canvas>
                                                     <button type="button" class="btn btn-xs btn-signature-reset"
                                                         @click="resetSignatureDraw">
@@ -225,6 +232,8 @@
             },
             created: function() {
                 this.init();
+
+                window.addEventListener("resize", this.setSignature);
             },
             methods: {
                 /**
@@ -248,15 +257,7 @@
 
                     // setup canvas drawing
                     setTimeout(() => {
-                        const canvas = document.querySelector("canvas");
-                        const parentWidth = $(canvas).parent().width();
-                        canvas.setAttribute("width", parentWidth);
-                        this.signaturePad = new SignaturePad(canvas, {
-                            penColor: "rgb(51, 51, 51)"
-                        });
-                        this.signaturePad.addEventListener("afterUpdateStroke", () => {
-                            this.changeSignatrueDraw();
-                        });
+                        this.setSignature();
                     }, 500);
                 },
                 info(message) {
@@ -293,6 +294,21 @@
                 },
                 isEmpty(value) {
                     return value === undefined || value === null || value === "";
+                },
+
+                /**
+                 * Signature Canvas
+                 */
+                setSignature() {
+                    const canvas = document.querySelector("canvas");
+                    const parentWidth = $(canvas).parent().width();
+                    canvas.setAttribute("width", parentWidth);
+                    this.signaturePad = new SignaturePad(canvas, {
+                        penColor: "rgb(51, 51, 51)"
+                    });
+                    this.signaturePad.addEventListener("afterUpdateStroke", () => {
+                        this.changeSignatrueDraw();
+                    });
                 },
 
                 /**

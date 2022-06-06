@@ -67,21 +67,25 @@
                     @foreach ($data as $row)
                         <tr>
                             <td>
-                                <a href="{{ url($row->foto) }}" data-lightbox="image-1"
-                                    data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
-                                    <img src="{{ url($row->foto) }}" class="img-fluid img-thumbnail"
-                                        alt="Signature : {{ $row->name }}">
-                                </a>
+                                @if ($row->foto)
+                                    <a href="{{ url($row->foto) }}" data-lightbox="image-1"
+                                        data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
+                                        <img src="{{ url($row->foto) }}" class="img-fluid img-thumbnail"
+                                            alt="Signature : {{ $row->name }}">
+                                    </a>
+                                @endif
                             </td>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->email }}</td>
                             <td>{{ $row->jabatan }}</td>
                             <td>
-                                <a href="{{ url($row->tanda_tangan) }}" data-lightbox="image-1"
-                                    data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
-                                    <img src="{{ url($row->tanda_tangan) }}" class="img-fluid img-thumbnail"
-                                        alt="Signature : {{ $row->name }}">
-                                </a>
+                                @if ($row->tanda_tangan)
+                                    <a href="{{ url($row->tanda_tangan) }}" data-lightbox="image-1"
+                                        data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
+                                        <img src="{{ url($row->tanda_tangan) }}" class="img-fluid img-thumbnail"
+                                            alt="Signature : {{ $row->name }}">
+                                    </a>
+                                @endif
                             </td>
                             <td class="text-center">
                                 <div class="list-icons">
