@@ -39,13 +39,13 @@ class UsersModel extends Model
         return self::query()
             ->where(function ($q) use ($filter) {
                 if (isset($filter['name']) && $filter['name'] != '') {
-                    $q->orWhere('name', 'LIKE', '%' . $filter['name'] . '%');
+                    $q->where('name', 'LIKE', '%' . $filter['name'] . '%');
                 }
                 if (isset($filter['email']) && $filter['email'] != '') {
-                    $q->orWhere('email', 'LIKE', '%' . $filter['email'] . '%');
+                    $q->where('email', 'LIKE', '%' . $filter['email'] . '%');
                 }
                 if (isset($filter['jabatan']) && $filter['jabatan'] != '') {
-                    $q->orWhere('jabatan', 'LIKE', '%' . $filter['jabatan'] . '%');
+                    $q->where('jabatan', 'LIKE', '%' . $filter['jabatan'] . '%');
                 }
             })
             ->where(function ($q) use ($search) {

@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\MasterLabController;
 use App\Http\Controllers\Module\UsersAdminController;
 use App\Http\Controllers\Module\PrivilegesController;
 use App\Http\Controllers\Backend\MasterTemplateController;
+use App\Http\Controllers\CMS\UnitController;
 use Faker\Factory as Faker;
 
 /*
@@ -75,6 +76,17 @@ Route::group([
         Route::get('/edit/{id}', [UsersController::class, 'edit']);
         Route::post('/update/{id}', [UsersController::class, 'update']);
         Route::post('/delete/{id}', [UsersController::class, 'delete']);
+    });
+
+    Route::group([
+        'prefix' => 'master/unit',
+    ], function () {
+        Route::get('/', [UnitController::class, 'index']);
+        Route::get('/add', [UnitController::class, 'add']);
+        Route::post('/save', [UnitController::class, 'save']);
+        Route::get('/edit/{id}', [UnitController::class, 'edit']);
+        Route::post('/update/{id}', [UnitController::class, 'update']);
+        Route::post('/delete/{id}', [UnitController::class, 'delete']);
     });
 });
 

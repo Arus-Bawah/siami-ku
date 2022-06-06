@@ -23,6 +23,22 @@
                             </div>
                         @break
 
+                        @case('select')
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">{{ $row['label'] }}:</label>
+                                <select name="filter[{{ $key }}]" id="filter{{ ucwords($key) }}"
+                                    class="form-control">
+                                    <option value="">Please Select {{ $row['label'] }}</option>
+                                    @foreach ($row['data'] as $xrow)
+                                        <option value="{{ $xrow->id }}"
+                                            {{ isset($filter[$key]) && $filter[$key] == $xrow->id ? 'selected' : '' }}>
+                                            {{ $xrow->value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @break
+
                         @default
                             <div class="form-group">
                                 Invalid Form Type

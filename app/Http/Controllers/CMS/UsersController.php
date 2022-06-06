@@ -6,7 +6,6 @@ use App\Helpers\LPM;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 
 # model
@@ -26,6 +25,12 @@ class UsersController extends Controller
         // get data
         $data = UsersModel::getIndex($limit, $search, $filter);
 
+        # set pagination
+        $start = $page + ($page * $limit) - $limit;
+        $start = ($start > 1 ? $start - $page + 1 : $start);
+        $end = $start + $limit;
+        $end = ($data->total() < $end ? $data->total() : $end);
+
         return view('cms.page.users.index', [
             'data' => $data,
             'query' => $query,
@@ -33,8 +38,8 @@ class UsersController extends Controller
             'search' => $search,
             'filter' => $filter,
             'entries' => [
-                'start' => $page + ($page * $limit) - $limit,
-                'end' => $page + ($page * $limit),
+                'start' => $start,
+                'end' => $end,
                 'total' => $data->total(),
             ],
         ]);
@@ -78,7 +83,7 @@ class UsersController extends Controller
         # get data
         $user = UsersModel::find($user_id);
 
-        # validat edata
+        # validate data
         if (!$user) {
             return redirect()->to(url('master/users'))->withErrors('Data tidak ditemukan');
         }

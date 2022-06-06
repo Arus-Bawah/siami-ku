@@ -15,4 +15,12 @@ class MasterUnitTipeModel extends Model
     {
         return $this->hasMany(MasterUnitModel::class, 'master_unit_tipe_id');
     }
+
+    public static function getTipe()
+    {
+        return self::query()
+            ->select('id', 'tipe as value')
+            ->orderBy('tipe', 'ASC')
+            ->get();
+    }
 }
