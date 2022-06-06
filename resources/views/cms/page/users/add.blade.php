@@ -155,7 +155,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>
-                                                            Upload Tanda Tangan <span class="text-danger">*</span> :
+                                                            Upload Tanda Tangan :
                                                         </label>
                                                         <input type="file" name="signature" id="signature"
                                                             class="form-input-styled"
@@ -177,10 +177,12 @@
                                         <div class="tab-pane fade" id="signatureDraw">
                                             <div class="row">
                                                 <div class="col">
+                                                    <label>
+                                                        Upload Tanda Tangan :
+                                                    </label>
                                                     <p>
-                                                        Use a touchpad, mouse, phone, tablet or other mobile devices to draw
-                                                        a free downloadable electronic signature.
-                                                        Customize smoothing, color and more.
+                                                        Gunakan touchpad, mouse, ponsel, tablet, atau perangkat seluler
+                                                        lainnya untuk menggambar tanda tangan elektronik.
                                                     </p>
                                                 </div>
                                                 <div class="col relative">
@@ -227,7 +229,7 @@
                     signature: null,
                     signature_base64: null,
                     signature_draw: null,
-                    signature_type: "upload", // [upload, drawing]
+                    signature_type: "upload", // [upload, draw]
                 },
             },
             created: function() {
@@ -316,7 +318,10 @@
                  */
                 onFileChange(e) {
                     const file = e.target.files[0];
-                    return URL.createObjectURL(file);
+                    if (typeof file !== 'undefined') {
+                        return URL.createObjectURL(file);
+                    }
+                    return null;
                 },
                 changeProfilePicture(e) {
                     this.form.foto = this.onFileChange(e);
@@ -354,7 +359,7 @@
                         },
                         data: formData,
                     }).then((response) => {
-                        if (response.data.status) { // direct to dashboard
+                        if (response.data.status) {
                             console.log(response.data.message);
                             window.location.href = "{{ url('master/users') }}";
                         } else { // alert failed

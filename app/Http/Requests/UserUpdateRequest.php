@@ -27,14 +27,14 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'foto' => 'required|email|exists:users,email|min:1||max:255',
+            'foto' => 'nullable|mimes:png,jpg,jpeg',
             'nama' => 'required|string|min:1|max:255',
             'jabatan' => 'required|string|min:1|max:255',
-            'email' => 'required|string|min:1|max:255',
-            'password' => 'required|string|min:1|max:255',
-            'signature_type' => 'required|string|min:1|max:255', // [upload, draw]
-            'signature' => 'required|string|min:1|max:255', // upload file
-            'signature_draw' => 'required|string|min:1|max:255', // base64 from drawing
+            'email' => 'required|min:1|max:255|email',
+            'password' => 'nullable|string|min:5|max:100',
+            'signature_type' => 'required|in:existing,upload,draw', // [upload, draw]
+            'signature' => 'required_if:signature_type,==,upload|mimes:png,jpg,jpeg', // upload file
+            'signature_draw' => 'required_if:signature_type,==,draw', // base64 from drawing
         ];
     }
 

@@ -2,7 +2,40 @@
 @section('title', 'Users')
 
 @push('top')
-    <style></style>
+    <style>
+        .img-profile {
+            object-fit: cover;
+            width: 150px;
+            height: 150px;
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+        .img-signature {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border: 1px solid #eaeaea;
+            padding: 10px;
+        }
+
+        canvas {
+            border: 1px dashed black;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.02) inset;
+        }
+
+        #signature_draw {
+            display: none;
+        }
+
+        .btn-signature-reset {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+    </style>
 @endpush
 
 @section('module')
@@ -20,7 +53,7 @@
 @endsection
 
 @section('breadcrumb')
-    <span class="breadcrumb-item active"><i class="icon-home2 mr-2"></i> Index</span>
+    <span class="breadcrumb-item active">Index</span>
 @endsection
 
 @section('content')
@@ -98,7 +131,8 @@
                                                 onclick="showLoading()">
                                                 <i class="icon-pencil5"></i> Edit
                                             </a>
-                                            <a href="javascript:void(0)" class="dropdown-item">
+                                            <a href="javascript:void(0)" class="dropdown-item"
+                                                @click="deleteData({{ $row->id }})">
                                                 <i class="icon-trash text-danger"></i> Delete
                                             </a>
                                         </div>
@@ -194,6 +228,41 @@
                 /**
                  * API
                  */
+                deleteData(id) {
+                    let c = confirm("Apakah anda yakin ingin menghapus data ini ?");
+
+                    if (c) {
+                        this.callAPI();
+                        axios({
+                            method: "POST",
+                            url: `{{ url('master/users/delete') }}/${id}`,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                                'Accept': 'application/json',
+                            },
+                            data: null,
+                        }).then((response) => {
+                            console.log(response.data);
+                            if (response.data.status) {
+                                console.log(response.data.message);
+                                window.location.reload();
+                            } else { // alert failed
+                                this.closeAPI();
+                                this.warning(response.data.message);
+                            }
+                        }).catch((error) => {
+                            this.closeAPI();
+                            if (typeof error.response.data.status === "undefined") {
+                                // this.warning(error.message);
+                                this.error("Terjadi kesalahan, silakan coba beberapa saat lagi.");
+                            } else {
+                                this.warning(error.response.data.message);
+                            }
+                            console.log(error); // show error logs
+                        });
+                    }
+                },
             }
         });
     </script>

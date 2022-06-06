@@ -74,7 +74,7 @@ Route::group([
         Route::post('/save', [UsersController::class, 'save']);
         Route::get('/edit/{id}', [UsersController::class, 'edit']);
         Route::post('/update/{id}', [UsersController::class, 'update']);
-        Route::post('/delete', [UsersController::class, 'delete']);
+        Route::post('/delete/{id}', [UsersController::class, 'delete']);
     });
 });
 
