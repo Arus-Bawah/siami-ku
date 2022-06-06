@@ -89,13 +89,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Nama<span class="text-danger">*</span> :</label>
+                                <label>Nama <span class="text-danger">*</span> :</label>
                                 <input type="text" name="nama" id="nama" class="form-control"
                                     placeholder="Muhammad Alfian Dzikri" required v-model="form.nama">
                             </div>
 
                             <div class="form-group">
-                                <label>Jabatan<span class="text-danger">*</span> :</label>
+                                <label>Jabatan <span class="text-danger">*</span> :</label>
                                 <input type="text" name="jabatan" id="jabatan" class="form-control" placeholder="Dekan"
                                     required v-model="form.jabatan">
                             </div>
@@ -109,7 +109,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Email<span class="text-danger">*</span> :</label>
+                                        <label>Email <span class="text-danger">*</span> :</label>
                                         <input type="email" name="email" id="email" class="form-control"
                                             placeholder="Dekan" required v-model="form.email">
                                     </div>
@@ -117,7 +117,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Password<span class="text-danger">*</span> :</label>
+                                        <label>Password <span class="text-danger">*</span> :</label>
                                         <input type="password" name="password" id="password" placeholder="******"
                                             class="form-control" minlength="5" required v-model="form.password">
                                         <span class="form-text text-muted">
@@ -155,7 +155,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>
-                                                            Upload Tanda Tangan<span class="text-danger">*</span> :
+                                                            Upload Tanda Tangan <span class="text-danger">*</span> :
                                                         </label>
                                                         <input type="file" name="signature" id="signature"
                                                             class="form-input-styled"
