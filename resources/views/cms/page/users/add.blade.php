@@ -31,7 +31,7 @@
 
         .btn-signature-reset {
             position: absolute;
-            right: 20px;
+            right: 10%;
             top: 10px;
         }
 
@@ -48,7 +48,7 @@
 @endsection
 
 @section('breadcrumb')
-    <a href="{{ url('master/users') }}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Index</a>
+    <a href="{{ url('master/users') }}" class="breadcrumb-item"><i class="icon-users mr-2"></i> Index</a>
     <span class="breadcrumb-item active">Add</span>
 @endsection
 
@@ -136,13 +136,13 @@
                                     <input type="hidden" name="signature_type" v-model="form.signature_type">
                                     <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
                                         <li class="nav-item">
-                                            <a href="#signatureUpload" class="nav-link" data-toggle="tab"
+                                            <a href="#signatureUpload" class="nav-link active" data-toggle="tab"
                                                 @click="changeSignatureType('upload')">
                                                 Upload
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#signatureDraw" class="nav-link active" data-toggle="tab"
+                                            <a href="#signatureDraw" class="nav-link" data-toggle="tab"
                                                 @click="changeSignatureType('draw')">
                                                 Draw
                                             </a>
@@ -150,7 +150,7 @@
                                     </ul>
 
                                     <div class="tab-content">
-                                        <div class="tab-pane fade" id="signatureUpload">
+                                        <div class="tab-pane fade show active" id="signatureUpload">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -174,7 +174,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="tab-pane fade show active" id="signatureDraw">
+                                        <div class="tab-pane fade" id="signatureDraw">
                                             <div class="row">
                                                 <div class="col">
                                                     <p>
