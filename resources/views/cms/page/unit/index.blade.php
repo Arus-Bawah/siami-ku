@@ -98,13 +98,9 @@
                 @if ($entries['start'] > $entries['total'])
                     Empty Data
                 @else
-                    Showing {{ $entries['start'] === 1 ? $entries['start'] : $entries['start'] - 1 }}
+                    Showing {{ $entries['start'] }}
                     to
-                    {{ $entries['end'] > $entries['total']
-                        ? $entries['total']
-                        : ($entries['end'] > 10
-                            ? $entries['end'] - 1
-                            : $entries['end']) }}
+                    {{ $entries['end'] < $entries['total'] ? $entries['end'] : $entries['total'] }}
                     of {{ $entries['total'] }} entries
                 @endif
             </p>

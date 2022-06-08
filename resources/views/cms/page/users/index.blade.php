@@ -151,7 +151,8 @@
                     Empty Data
                 @else
                     Showing {{ $entries['start'] }}
-                    to {{ $entries['end'] > $entries['total'] ? $entries['total'] : $entries['end'] }}
+                    to
+                    {{ $entries['end'] < $entries['total'] ? $entries['end'] : $entries['total'] }}
                     of {{ $entries['total'] }} entries
                 @endif
             </p>

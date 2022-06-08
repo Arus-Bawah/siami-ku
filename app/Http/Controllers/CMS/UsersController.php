@@ -26,10 +26,10 @@ class UsersController extends Controller
         $data = UsersModel::getIndex($limit, $search, $filter);
 
         # set pagination
-        $start = $page + ($page * $limit) - $limit;
-        $start = ($start > 1 ? $start - $page + 1 : $start);
-        $end = $start + $limit;
-        $end = ($data->total() < $end ? $data->total() : $end);
+        $start = ($page * $limit) - $limit;
+        $start = ($page > 1 ? $start + 1 : 1);
+        $end = $start + $limit - 1;
+        $end = ($end < $data->total() ? $end : $data->total());
 
         return view('cms.page.users.index', [
             'data' => $data,
