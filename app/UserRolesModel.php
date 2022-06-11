@@ -15,7 +15,7 @@ class UserRolesModel extends Model
     {
         return self::query()
             ->where('users_id', '=', $users_id)
-            ->pluck('master_unit_tipe_id')
+            ->pluck('master_unit_id')
             ->toArray();
     }
 }

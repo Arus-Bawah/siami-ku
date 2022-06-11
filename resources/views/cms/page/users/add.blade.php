@@ -34,7 +34,6 @@
             right: 10%;
             top: 10px;
         }
-
     </style>
 @endpush
 
@@ -58,7 +57,7 @@
             <form id="formAdd" action="{{ url('master/users/save') }}" method="POST" enctype="multipart/form-data"
                 v-on:submit.prevent="submitForm">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <fieldset>
                             <legend class="font-weight-semibold"><i class="icon-reading mr-2"></i> Personal Details</legend>
 
@@ -91,12 +90,12 @@
                         </fieldset>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <fieldset>
                             <legend class="font-weight-semibold"><i class="icon-key mr-2"></i> Account Details</legend>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span> :</label>
                                         <input type="email" name="email" id="email" class="form-control"
@@ -104,7 +103,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Password <span class="text-danger">*</span> :</label>
                                         <input type="password" name="password" id="password" placeholder="******"
@@ -121,7 +120,7 @@
                             <legend class="font-weight-semibold"><i class="icon-pencil7 mr-2"></i> Signatures</legend>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-lg-12">
                                     <input type="hidden" name="signature_type" v-model="form.signature_type">
                                     <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
                                         <li class="nav-item">
@@ -141,7 +140,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane fade show active" id="signatureUpload">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-lg-6">
                                                     <div class="form-group">
                                                         <label>
                                                             Upload Tanda Tangan :
@@ -156,7 +155,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-lg-6">
                                                     <img v-if="form.signature_base64 != null" :src="form.signature_base64"
                                                         alt="Users Signature" class="img-signature">
                                                 </div>
@@ -188,6 +187,45 @@
                                 </div>
                             </div>
                         </fieldset>
+                    </div>
+
+                    <div class="col-lg-12 mt-3">
+                        <fieldset>
+                            <legend class="font-weight-semibold">
+                                <div class="form-check form-check-right">
+                                    <label class="form-check-label">
+                                        <i class="icon-list mr-2"></i> User Access
+                                        <input id="checkAll" type="checkbox" class="form-check-input" @click=checkAll>
+                                    </label>
+                                </div>
+                            </legend>
+                        </fieldset>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="checkBoxAccess" class="d-flex justify-content-between">
+                                    @foreach ($access as $tipe)
+                                        <div class="checkbox-group">
+                                            <div class="form-check form-check-right border-bottom-1 pb-2 mb-2">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input input-check-section"
+                                                        @click=checkSection>
+                                                    {{ $tipe->tipe }}
+                                                </label>
+                                            </div>
+                                            @foreach ($tipe->masterUnit as $unit)
+                                                <div class="form-check form-unit">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" class="form-check-input" name="unit[]"
+                                                            value="{{ $unit->id }}" @click=isCheckSection>
+                                                        {{ $unit->unit }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -328,6 +366,60 @@
                 resetSignatureDraw() {
                     this.signaturePad.clear();
                     this.form.signature_draw = null;
+                },
+
+                /**
+                 * Checkbox
+                 */
+                checkAll(e) {
+                    if (e.target.checked) {
+                        $('#checkBoxAccess').find('input[type="checkbox"]').prop('checked', true);
+                    } else {
+                        $('#checkBoxAccess').find('input[type="checkbox"]').prop('checked', false);
+                    }
+                },
+                checkSection(e) {
+                    let group = $(e.target).closest(".checkbox-group");
+                    if (e.target.checked) {
+                        group.find('.form-unit input[type=checkbox]').prop('checked', true);
+                    } else {
+                        group.find('.form-unit input[type=checkbox]').prop('checked', false);
+                    }
+                    this.isCheckAll();
+                },
+                isCheckSection(e) {
+                    let group = $(e.target).closest(".checkbox-group");
+                    if (e.target.checked) {
+                        let isAllCheck = true;
+                        group.find('.form-unit input[type=checkbox]').each(function() {
+                            if ($(this).prop('checked') === false) {
+                                isAllCheck = false;
+                            }
+                        });
+
+                        if (isAllCheck) {
+                            group.find('.input-check-section').prop('checked', true);
+                        } else {
+                            group.find('.input-check-section').prop('checked', false);
+                        }
+                    } else {
+                        group.find('.input-check-section').prop('checked', false);
+                    }
+                    this.isCheckAll();
+                },
+                isCheckAll() {
+                    let isAllCheck = true;
+                    $(document).find('.form-unit input[type=checkbox]').each(function() {
+                        if ($(this).prop('checked') === false) {
+                            isAllCheck = false;
+                        }
+                    });
+
+                    if (isAllCheck) {
+                        $('#checkAll').prop('checked', true);
+                    } else {
+                        $('#checkAll').prop('checked', false);
+                    }
                 },
 
                 /**

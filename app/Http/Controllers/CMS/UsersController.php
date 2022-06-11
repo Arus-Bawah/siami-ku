@@ -6,10 +6,14 @@ use App\Helpers\LPM;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\MasterUnitModel;
+use App\MasterUnitTipeModel;
+use App\UserRolesModel;
 use Illuminate\Support\Facades\Hash;
 
 # model
 use App\UsersModel;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -47,35 +51,63 @@ class UsersController extends Controller
 
     public function add()
     {
-        return view('cms.page.users.add', []);
+        return view('cms.page.users.add', [
+            'access' => MasterUnitTipeModel::with(
+                'masterUnit',
+                'masterUnit.masterUnitJenjang',
+                'masterUnit.masterUnitJenjang.masterJenjang'
+            )->get()
+        ]);
     }
 
     public function save(UserStoreRequest $request)
     {
-        # create new record data
-        # default role is user because LPM is an admin role
-        $act = UsersModel::query()->insert([
-            'name' => $request->nama,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'User',
-            'foto' => LPM::UploadImage('foto', 'profile'),
-            'jabatan' => $request->jabatan,
-            'tanda_tangan' => ($request->signature_type === 'upload' ? LPM::UploadImage('signature', 'signature') : LPM::UploadBase64('signature_draw', 'signature')),
-        ]);
+        # get data
+        $unit = MasterUnitModel::with('masterUnitTipe') # use for check tipe id
+            ->get()
+            ->keyBy('id');
 
-        if ($act) {
-            # set response success
+        try {
+            DB::beginTransaction();
+
+            # create new record data
+            # default role is user because LPM is an admin role
+            $users_id = UsersModel::query()->insertGetId([
+                'name' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'User',
+                'foto' => LPM::UploadImage('foto', 'profile'),
+                'jabatan' => $request->jabatan,
+                'tanda_tangan' => ($request->signature_type === 'upload' ? LPM::UploadImage('signature', 'signature') : LPM::UploadBase64('signature_draw', 'signature')),
+            ]);
+
+            # create role access record
+            $save_unit = [];
+            foreach ($request->unit as $unit_id) {
+                if (isset($unit[$unit_id])) {
+                    $save_unit[] = [
+                        'users_id' => $users_id,
+                        'master_unit_tipe_id' => $unit[$unit_id]->masterUnitTipe->id,
+                        'master_unit_id' => $unit_id,
+                    ];
+                }
+            }
+            UserRolesModel::query()->insert($save_unit);
+
+            DB::commit();
             return response()->json([
                 'status' => true,
                 'message' => 'User berhasil dibuat'
             ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan, silakan coba beberapa saat lagi',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Terjadi kesalahan, silakan coba beberapa saat lagi'
-        ], 500);
     }
 
     public function edit($user_id)
@@ -91,6 +123,12 @@ class UsersController extends Controller
         return view('cms.page.users.edit', [
             'user_id' => $user_id,
             'data' => $user,
+            'role' => UserRolesModel::pluckUnitIdByUsersId($user->id),
+            'access' => MasterUnitTipeModel::with(
+                'masterUnit',
+                'masterUnit.masterUnitJenjang',
+                'masterUnit.masterUnitJenjang.masterJenjang'
+            )->get()
         ]);
     }
 
@@ -98,6 +136,9 @@ class UsersController extends Controller
     {
         # get data
         $user = UsersModel::find($user_id);
+        $unit = MasterUnitModel::with('masterUnitTipe') # use for check unit tipe id
+            ->get()->keyBy('id');
+        $role = UserRolesModel::pluckUnitIdByUsersId($user->id); # get existing access role variable
 
         # validate data
         if (!$user) {
@@ -119,50 +160,70 @@ class UsersController extends Controller
             ], 400);
         }
 
+        # check if updated photo
+        $foto = LPM::UploadImage('foto', 'profile');
+
+        # check if updated signature
+        # default type is existing [existing, upload, draw]
+        # if existing not updated
+        $tanda_tangan = $user->tanda_tangan;
+        if ($request->signature_type === 'upload') {
+            $tanda_tangan = LPM::UploadImage('signature', 'signature');
+        } else if ($request->signature_type === 'draw') {
+            $tanda_tangan = LPM::UploadBase64('signature_draw', 'signature');
+        }
+
         # create parameter
         $save = [
             'name' => $request->nama,
             'email' => $request->email,
             'jabatan' => $request->jabatan,
+            'foto' => ($foto === null ? $user->foto : $foto), # check if updated photo
+            'tanda_tangan' => $tanda_tangan,
+            'password' => (!$request->password ? $user->password : Hash::make($request->password))
         ];
 
-        # check if updated photo
-        $foto = LPM::UploadImage('foto', 'profile');
-        if ($foto) {
-            $save['foto'] = $foto;
-        }
 
-        # check if updated signature
-        # default type is existing [existing, upload, draw]
-        # if existing not updated
-        if ($request->signature_type === 'upload') {
-            $save['tanda_tangan'] = LPM::UploadImage('signature', 'signature');
-        } else if ($request->signature_type === 'draw') {
-            $save['tanda_tangan'] = LPM::UploadBase64('signature_draw', 'signature');
-        }
+        try {
+            DB::beginTransaction();
 
-        # check if updated password
-        if ($request->password) {
-            $save['password'] = Hash::make($request->password);
-        }
+            # update record data
+            UsersModel::query()
+                ->where('id', '=', $user->id)
+                ->update($save);
 
-        # update record data
-        $act = UsersModel::query()
-            ->where('id', '=', $user->id)
-            ->update($save);
+            # create role access record
+            $save_unit = [];
+            foreach ($request->unit as $unit_id) {
+                if (!in_array($unit_id, $role)) {
+                    $save_unit[] = [
+                        'users_id' => $user->id,
+                        'master_unit_tipe_id' => $unit[$unit_id]->masterUnitTipe->id,
+                        'master_unit_id' => $unit_id,
+                    ];
+                }
+            }
+            UserRolesModel::query()->insert($save_unit);
 
-        if ($act) {
-            # set response success
+            # delete role access record
+            UserRolesModel::query()
+                ->where('users_id', '=', $user->id)
+                ->whereNotIn('master_unit_id', $request->unit)
+                ->delete();
+
+            DB::commit();
             return response()->json([
                 'status' => true,
-                'message' => 'User berhasil di update'
+                'message' => 'User berhasil update'
             ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => 'Terjadi kesalahan, silakan coba beberapa saat lagi',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        return response()->json([
-            'status' => false,
-            'message' => 'Terjadi kesalahan, silakan coba beberapa saat lagi'
-        ], 500);
     }
 
     public function delete($user_id)

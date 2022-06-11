@@ -16,6 +16,11 @@ class MasterUnitJenjangModel extends Model
         return $this->belongsTo(MasterUnitModel::class, 'master_unit_id');
     }
 
+    public function masterJenjang()
+    {
+        return $this->belongsTo(MasterJenjangModel::class, 'master_jenjang_id');
+    }
+
     public static function pluckJenjangIdByUnit($unit_id)
     {
         return self::query()

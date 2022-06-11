@@ -34,7 +34,6 @@
             right: 10%;
             top: 10px;
         }
-
     </style>
 @endpush
 
@@ -220,6 +219,46 @@
                             </div>
                         </fieldset>
                     </div>
+
+                    <div class="col-lg-12 mt-3">
+                        <fieldset>
+                            <legend class="font-weight-semibold">
+                                <div class="form-check form-check-right">
+                                    <label class="form-check-label">
+                                        <i class="icon-list mr-2"></i> User Access
+                                        <input id="checkAll" type="checkbox" class="form-check-input" @click=checkAll>
+                                    </label>
+                                </div>
+                            </legend>
+                        </fieldset>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="checkBoxAccess" class="d-flex justify-content-between">
+                                    @foreach ($access as $tipe)
+                                        <div class="checkbox-group">
+                                            <div class="form-check form-check-right border-bottom-1 pb-2 mb-2">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" class="form-check-input input-check-section"
+                                                        @click=checkSection>
+                                                    {{ $tipe->tipe }}
+                                                </label>
+                                            </div>
+                                            @foreach ($tipe->masterUnit as $unit)
+                                                <div class="form-check form-unit">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" class="form-check-input" name="unit[]"
+                                                            value="{{ $unit->id }}" @click=isCheckSection
+                                                            @if (in_array($unit->id, $role)) checked @endif>
+                                                        {{ $unit->unit }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="text-right mt-2">
@@ -254,8 +293,10 @@
             },
             created: function() {
                 this.init();
-
                 window.addEventListener("resize", this.setSignature);
+            },
+            mounted() {
+                this.isCheckGroup();
             },
             methods: {
                 /**
@@ -363,6 +404,79 @@
                 resetSignatureDraw() {
                     this.signaturePad.clear();
                     this.form.signature_draw = null;
+                },
+
+                /**
+                 * Checkbox
+                 */
+                checkAll(e) {
+                    if (e.target.checked) {
+                        $('#checkBoxAccess').find('input[type="checkbox"]').prop('checked', true);
+                    } else {
+                        $('#checkBoxAccess').find('input[type="checkbox"]').prop('checked', false);
+                    }
+                },
+                checkSection(e) {
+                    let group = $(e.target).closest(".checkbox-group");
+                    if (e.target.checked) {
+                        group.find('.form-unit input[type=checkbox]').prop('checked', true);
+                    } else {
+                        group.find('.form-unit input[type=checkbox]').prop('checked', false);
+                    }
+                    this.isCheckAll();
+                },
+                isCheckSection(e) {
+                    let group = $(e.target).closest(".checkbox-group");
+                    if (e.target.checked) {
+                        let isAllCheck = true;
+                        group.find('.form-unit input[type=checkbox]').each(function() {
+                            if ($(this).prop('checked') === false) {
+                                isAllCheck = false;
+                            }
+                        });
+
+                        if (isAllCheck) {
+                            group.find('.input-check-section').prop('checked', true);
+                        } else {
+                            group.find('.input-check-section').prop('checked', false);
+                        }
+                    } else {
+                        group.find('.input-check-section').prop('checked', false);
+                    }
+                    this.isCheckAll();
+                },
+                isCheckAll() {
+                    console.log('ischeckall')
+                    let isAllCheck = true;
+                    $(document).find('.form-unit input[type=checkbox]').each(function() {
+                        if ($(this).prop('checked') === false) {
+                            isAllCheck = false;
+                        }
+                    });
+
+                    if (isAllCheck) {
+                        $('#checkAll').prop('checked', true);
+                    } else {
+                        $('#checkAll').prop('checked', false);
+                    }
+                },
+                isCheckGroup() {
+                    $(document).find('.checkbox-group').each(function() {
+                        let isAllCheck = true;
+                        $(this).find('.form-unit input[type=checkbox]').each(function() {
+                            if ($(this).prop('checked') === false) {
+                                isAllCheck = false;
+                            }
+                        });
+
+                        if (isAllCheck) {
+                            $(this).find('.input-check-section').prop('checked', true);
+                        } else {
+                            $(this).find('.input-check-section').prop('checked', false);
+                        }
+                    });
+
+                    this.isCheckAll();
                 },
 
                 /**

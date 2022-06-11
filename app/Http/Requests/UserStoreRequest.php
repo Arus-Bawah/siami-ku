@@ -35,6 +35,7 @@ class UserStoreRequest extends FormRequest
             'signature_type' => 'required|in:upload,draw', // [upload, draw]
             'signature' => 'required_if:signature_type,==,upload|mimes:png,jpg,jpeg', // upload file
             'signature_draw' => 'required_if:signature_type,==,draw', // base64 from drawing
+            'unit' => 'required|array' // role access
         ];
     }
 
