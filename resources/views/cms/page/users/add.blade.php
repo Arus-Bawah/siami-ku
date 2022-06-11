@@ -40,21 +40,25 @@
 @section('module')
     <div class="page-title d-flex">
         <h4>
-            <a href="{{ url('master/users') }}" class="text-dark"><i class="icon-arrow-left52 mr-2"></i></a>
+            <a href="{{ route('master.users.index', []) }}" class="text-dark">
+                <i class="icon-arrow-left52 mr-2"></i>
+            </a>
             <span class="font-weight-semibold">Users</span> - Add
         </h4>
     </div>
 @endsection
 
 @section('breadcrumb')
-    <a href="{{ url('master/users') }}" class="breadcrumb-item"><i class="icon-users mr-2"></i> Index</a>
+    <a href="{{ route('master.users.index', []) }}" class="breadcrumb-item">
+        <i class="icon-users mr-2"></i> Index
+    </a>
     <span class="breadcrumb-item active">Add</span>
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form id="formAdd" action="{{ url('master/users/save') }}" method="POST" enctype="multipart/form-data"
+            <form id="formAdd" action="{{ route('master.users.save', []) }}" method="POST" enctype="multipart/form-data"
                 v-on:submit.prevent="submitForm">
                 <div class="row">
                     <div class="col-lg-6">
@@ -431,7 +435,7 @@
                     this.callAPI();
                     axios({
                         method: "POST",
-                        url: "{{ url('master/users/save') }}",
+                        url: "{{ route('master.users.save', []) }}",
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
                                 .getAttribute('content'),
@@ -442,7 +446,7 @@
                     }).then((response) => {
                         if (response.data.status) {
                             console.log(response.data.message);
-                            window.location.href = "{{ url('master/users') }}";
+                            window.location.href = "{{ route('master.users.index', []) }}";
                         } else { // alert failed
                             this.closeAPI();
                             this.warning(response.data.message);

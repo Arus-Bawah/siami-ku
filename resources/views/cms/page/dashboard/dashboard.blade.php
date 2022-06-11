@@ -5,7 +5,9 @@
 @endpush
 
 @section('module')
-    <i class="icon-home4 mr-2"></i> <span class="font-weight-semibold">Dashboard</span>
+    <div class="page-title d-flex">
+        <h4><i class="icon-home4 mr-2"></i> <span class="font-weight-semibold">Dashboard</span></h4>
+    </div>
 @endsection
 
 @section('breadcrumb')

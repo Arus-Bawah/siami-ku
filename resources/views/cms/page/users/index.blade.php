@@ -34,7 +34,6 @@
             right: 20px;
             top: 10px;
         }
-
     </style>
 @endpush
 
@@ -45,7 +44,7 @@
 
     <div class="header-elements d-none">
         <div class="d-flex justify-content-center">
-            <a href="{{ url('master/users/add') }}" class="btn btn-primary">
+            <a href="{{ route('master.users.add') }}" class="btn btn-primary">
                 <i class="icon-add"></i> &nbsp; <span>Add Data</span>
             </a>
         </div>
@@ -127,8 +126,8 @@
                                             <i class="icon-menu9"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ url('master/users/edit/' . $row->id) }}" class="dropdown-item"
-                                                onclick="showLoading()">
+                                            <a href="{{ route('master.users.edit', ['id' => $row->id]) }}"
+                                                class="dropdown-item" onclick="showLoading()">
                                                 <i class="icon-pencil5"></i> Edit
                                             </a>
                                             <a href="javascript:void(0)" class="dropdown-item"
@@ -236,7 +235,7 @@
                         this.callAPI();
                         axios({
                             method: "POST",
-                            url: `{{ url('master/users/delete') }}/${id}`,
+                            url: `{{ route('master.users.delete', ['id' => null]) }}/${id}`,
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
                                     .getAttribute('content'),

@@ -28,7 +28,7 @@ Route::get('/csrf', function () {
 });
 
 Route::get('/', function () {
-    return redirect('auth/login');
+    return redirect()->to(route('auth.login'));
 });
 
 /**
@@ -39,7 +39,7 @@ Route::group([
 ], function () {
     Route::group([
         'prefix' => 'auth',
-        'namespace' => 'auth.',
+        'as' => 'auth.',
     ], function () {
         Route::get('/login', [AuthController::class, 'index'])->name('login');
         Route::post('/login', [AuthController::class, 'doLogin'])->name('login.submit');
@@ -48,33 +48,33 @@ Route::group([
 
     Route::group([
         'prefix' => 'dashboard',
-        'namespace' => 'dashboard.',
+        'as' => 'dashboard.',
     ], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
     });
 
     Route::group([
         'prefix' => 'master/users',
-        'namespace' => 'master.users.',
+        'as' => 'master.users.',
     ], function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');
         Route::get('/add', [UsersController::class, 'add'])->name('add');
         Route::post('/save', [UsersController::class, 'save'])->name('save');
         Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [UsersController::class, 'update'])->name('update');
-        Route::post('/delete/{id}', [UsersController::class, 'delete'])->name('delete');
+        Route::post('/delete/{id?}', [UsersController::class, 'delete'])->name('delete');
     });
 
     Route::group([
         'prefix' => 'master/unit',
-        'namespace' => 'master.unit.',
+        'as' => 'master.unit.',
     ], function () {
         Route::get('/', [UnitController::class, 'index'])->name('index');
         Route::get('/add', [UnitController::class, 'add'])->name('add');
         Route::post('/save', [UnitController::class, 'save'])->name('save');
         Route::get('/edit/{id}', [UnitController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [UnitController::class, 'update'])->name('update');
-        Route::post('/delete/{id}', [UnitController::class, 'delete'])->name('delete');
+        Route::post('/delete/{id?}', [UnitController::class, 'delete'])->name('delete');
     });
 });
 

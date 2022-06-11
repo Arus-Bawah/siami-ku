@@ -33,7 +33,6 @@
             color: var(--white);
             opacity: 0.8;
         }
-
     </style>
 @endpush
 
@@ -153,7 +152,7 @@
                         this.callAPI();
                         axios({
                             method: "POST",
-                            url: "{{ url('auth/login') }}",
+                            url: "{{ route('auth.login.submit', []) }}",
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
                                     .getAttribute('content'),
@@ -166,7 +165,7 @@
                         }).then((response) => {
                             if (response.data.status) { // direct to dashboard
                                 console.log(response.data.message);
-                                window.location.href = "{{ url('dashboard') }}";
+                                window.location.href = "{{ route('dashboard.index', []) }}";
                             } else { // alert failed
                                 this.closeAPI();
                                 this.warning(response.data.message);
