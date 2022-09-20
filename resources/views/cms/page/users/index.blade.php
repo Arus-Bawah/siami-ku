@@ -60,7 +60,7 @@
         @include('cms.component.index_header', [
             'show' => [
                 'search' => true,
-                'filter' => true,
+                'filter' => false,
                 'limit' => true,
             ],
             'query' => $query,
@@ -100,10 +100,8 @@
                         <tr>
                             <td>
                                 @if ($row->foto)
-                                    <a href="{{ url($row->foto) }}" data-lightbox="image-1"
-                                        data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
-                                        <img src="{{ url($row->foto) }}" class="img-fluid img-thumbnail"
-                                            alt="Signature : {{ $row->name }}">
+                                    <a href="{{ url($row->foto) }}" data-lightbox="image-1" data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
+                                        <img src="{{ url($row->foto) }}" class="img-fluid img-thumbnail" alt="Signature : {{ $row->name }}">
                                     </a>
                                 @endif
                             </td>
@@ -112,10 +110,9 @@
                             <td>{{ $row->jabatan }}</td>
                             <td>
                                 @if ($row->tanda_tangan)
-                                    <a href="{{ url($row->tanda_tangan) }}" data-lightbox="image-1"
-                                        data-title="Signature : {{ $row->name }}" data-lightbox="roadtrip">
-                                        <img src="{{ url($row->tanda_tangan) }}" class="img-fluid img-thumbnail"
-                                            alt="Signature : {{ $row->name }}">
+                                    <a href="{{ url($row->tanda_tangan) }}" data-lightbox="image-1" data-title="Signature : {{ $row->name }}"
+                                        data-lightbox="roadtrip">
+                                        <img src="{{ url($row->tanda_tangan) }}" class="img-fluid img-thumbnail" alt="Signature : {{ $row->name }}">
                                     </a>
                                 @endif
                             </td>
@@ -126,12 +123,10 @@
                                             <i class="icon-menu9"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('master.users.edit', ['id' => $row->id]) }}"
-                                                class="dropdown-item" onclick="showLoading()">
+                                            <a href="{{ route('master.users.edit', ['id' => $row->id]) }}" class="dropdown-item" onclick="showLoading()">
                                                 <i class="icon-pencil5"></i> Edit
                                             </a>
-                                            <a href="javascript:void(0)" class="dropdown-item"
-                                                @click="deleteData({{ $row->id }})">
+                                            <a href="javascript:void(0)" class="dropdown-item" @click="deleteData({{ $row->id }})">
                                                 <i class="icon-trash text-danger"></i> Delete
                                             </a>
                                         </div>
@@ -171,6 +166,14 @@
             },
             created: function() {
                 this.init();
+
+                @if (session()->has('success'))
+                    this.success("{{ session('success') }}");
+                @elseif (session()->has('warning'))
+                    this.warning("{{ session('warning') }}");
+                @elseif (session()->has('error'))
+                    this.error("{{ session('error') }}");
+                @endif
             },
             methods: {
                 /**

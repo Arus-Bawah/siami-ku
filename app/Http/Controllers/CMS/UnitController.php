@@ -4,14 +4,14 @@ namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequest;
-use App\MasterJenjangModel;
-use App\MasterUnitJenjangModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 #model
 use App\MasterUnitModel;
 use App\MasterUnitTipeModel;
+use App\MasterJenjangModel;
+use App\MasterUnitJenjangModel;
 
 class UnitController extends Controller
 {

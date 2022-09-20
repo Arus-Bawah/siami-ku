@@ -58,8 +58,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form id="formAdd" action="{{ route('master.users.save', []) }}" method="POST" enctype="multipart/form-data"
-                v-on:submit.prevent="submitForm">
+            <form id="formAdd" action="{{ route('master.users.save', []) }}" method="POST" enctype="multipart/form-data" v-on:submit.prevent="submitForm">
                 <div class="row">
                     <div class="col-lg-6">
                         <fieldset>
@@ -67,8 +66,8 @@
 
                             <div class="form-group d-flex align-items-center">
                                 <div class="card-img-actions d-inline-block">
-                                    <img class="img-fluid rounded-circle img-profile" width="200" height="200"
-                                        alt="Profile Picture" :src="(isEmpty(form.foto) ? imagePlaceholder : form.foto)">
+                                    <img class="img-fluid rounded-circle img-profile" width="200" height="200" alt="Profile Picture"
+                                        :src="(isEmpty(form.foto) ? imagePlaceholder : form.foto)">
                                 </div>
                                 <div class="ml-3 w-100">
                                     <p>Profile Picture :</p>
@@ -82,14 +81,13 @@
 
                             <div class="form-group">
                                 <label>Nama <span class="text-danger">*</span> :</label>
-                                <input type="text" name="nama" id="nama" class="form-control"
-                                    placeholder="Muhammad Alfian Dzikri" required v-model="form.nama">
+                                <input type="text" name="nama" id="nama" class="form-control" placeholder="Muhammad Alfian Dzikri" required
+                                    v-model="form.nama">
                             </div>
 
                             <div class="form-group">
                                 <label>Jabatan <span class="text-danger">*</span> :</label>
-                                <input type="text" name="jabatan" id="jabatan" class="form-control" placeholder="Dekan"
-                                    required v-model="form.jabatan">
+                                <input type="text" name="jabatan" id="jabatan" class="form-control" placeholder="Dekan" required v-model="form.jabatan">
                             </div>
                         </fieldset>
                     </div>
@@ -102,16 +100,15 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span> :</label>
-                                        <input type="email" name="email" id="email" class="form-control"
-                                            placeholder="Dekan" required v-model="form.email">
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="Dekan" required v-model="form.email">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Password <span class="text-danger">*</span> :</label>
-                                        <input type="password" name="password" id="password" placeholder="******"
-                                            class="form-control" minlength="5" required v-model="form.password">
+                                        <input type="password" name="password" id="password" placeholder="******" class="form-control" minlength="5" required
+                                            v-model="form.password">
                                         <span class="form-text text-muted">
                                             Password miminal berisi 5 karakter
                                         </span>
@@ -128,14 +125,12 @@
                                     <input type="hidden" name="signature_type" v-model="form.signature_type">
                                     <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
                                         <li class="nav-item">
-                                            <a href="#signatureUpload" class="nav-link active" data-toggle="tab"
-                                                @click="changeSignatureType('upload')">
+                                            <a href="#signatureUpload" class="nav-link active" data-toggle="tab" @click="changeSignatureType('upload')">
                                                 Upload
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#signatureDraw" class="nav-link" data-toggle="tab"
-                                                @click="changeSignatureType('draw')">
+                                            <a href="#signatureDraw" class="nav-link" data-toggle="tab" @click="changeSignatureType('draw')">
                                                 Draw
                                             </a>
                                         </li>
@@ -149,10 +144,8 @@
                                                         <label>
                                                             Upload Tanda Tangan :
                                                         </label>
-                                                        <input type="file" name="signature" id="signature"
-                                                            class="form-input-styled"
-                                                            accept="image/png, image/jpg, image/jpeg"
-                                                            @change="changeSignatureUpload">
+                                                        <input type="file" name="signature" id="signature" class="form-input-styled"
+                                                            accept="image/png, image/jpg, image/jpeg" @change="changeSignatureUpload">
                                                         <span class="form-text text-muted">
                                                             Format yang bisa digunakan: png, jpg, jpeg. Max file size 2Mb.
                                                             Pastikan background berwarna putih.
@@ -160,8 +153,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <img v-if="form.signature_base64 != null" :src="form.signature_base64"
-                                                        alt="Users Signature" class="img-signature">
+                                                    <img v-if="form.signature_base64 != null" :src="form.signature_base64" alt="Users Signature"
+                                                        class="img-signature">
                                                 </div>
                                             </div>
                                         </div>
@@ -179,8 +172,7 @@
                                                 </div>
                                                 <div class="col relative">
                                                     <canvas></canvas>
-                                                    <button type="button" class="btn btn-xs btn-signature-reset"
-                                                        @click="resetSignatureDraw">
+                                                    <button type="button" class="btn btn-xs btn-signature-reset" @click="resetSignatureDraw">
                                                         <i class="icon icon-reset"></i>
                                                     </button>
                                                 </div>
@@ -211,16 +203,15 @@
                                         <div class="checkbox-group">
                                             <div class="form-check form-check-right border-bottom-1 pb-2 mb-2">
                                                 <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input input-check-section"
-                                                        @click=checkSection>
+                                                    <input type="checkbox" class="form-check-input input-check-section" @click=checkSection>
                                                     {{ $tipe->tipe }}
                                                 </label>
                                             </div>
-                                            @foreach ($tipe->masterUnit as $unit)
+                                            @foreach ($tipe->unit as $unit)
                                                 <div class="form-check form-unit">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" class="form-check-input" name="unit[]"
-                                                            value="{{ $unit->id }}" @click=isCheckSection>
+                                                        <input type="checkbox" class="form-check-input" name="unit[]" value="{{ $unit->id }}"
+                                                            @click=isCheckSection>
                                                         {{ $unit->unit }}
                                                     </label>
                                                 </div>

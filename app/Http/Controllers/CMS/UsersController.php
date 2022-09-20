@@ -6,14 +6,15 @@ use App\Helpers\LPM;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\MasterUnitModel;
-use App\MasterUnitTipeModel;
-use App\UserRolesModel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 # model
 use App\UsersModel;
-use Illuminate\Support\Facades\DB;
+use App\MasterUnitModel;
+use App\MasterUnitTipeModel;
+use App\UserRolesModel;
 
 class UsersController extends Controller
 {
@@ -21,13 +22,21 @@ class UsersController extends Controller
     {
         // get query
         $query = request()->query();
-        $page = (int) request()->get('page') == '' ? 1 : request()->get('page');
-        $limit = (int) request()->get('limit') == '' ? 20 : request()->get('limit');
+        $page = request()->get('page') == '' ? 1 : (int) request()->get('page');
+        $limit = request()->get('limit') == '' ? 20 : (int) request()->get('limit');
         $search = request()->get('search') == '' ? '' : request()->get('search');
         $filter = is_array(request()->get('filter')) ? request()->get('filter') : [];
 
         // get data
-        $data = UsersModel::getIndex($limit, $search, $filter);
+        $data = UsersModel::query()
+            ->where(function ($q) use ($search) {
+                $q->orWhere('name', 'LIKE', '%' . $search . '%');
+                $q->orWhere('email', 'LIKE', '%' . $search . '%');
+                $q->orWhere('jabatan', 'LIKE', '%' . $search . '%');
+            })
+            ->where('role', '!=', 'LPM')
+            ->orderBy('id', 'DESC')
+            ->paginate($limit);
 
         # set pagination
         $start = ($page * $limit) - $limit;
@@ -52,20 +61,14 @@ class UsersController extends Controller
     public function add()
     {
         return view('cms.page.users.add', [
-            'access' => MasterUnitTipeModel::with(
-                'masterUnit',
-                'masterUnit.masterUnitJenjang',
-                'masterUnit.masterUnitJenjang.masterJenjang'
-            )->get()
+            'access' => MasterUnitTipeModel::with(['unit'])->get()
         ]);
     }
 
     public function save(UserStoreRequest $request)
     {
         # get data
-        $unit = MasterUnitModel::with('masterUnitTipe') # use for check tipe id
-            ->get()
-            ->keyBy('id');
+        $unit = MasterUnitModel::with('tipe')->get()->keyBy('id'); # use for check tipe id
 
         try {
             DB::beginTransaction();
@@ -88,7 +91,7 @@ class UsersController extends Controller
                 if (isset($unit[$unit_id])) {
                     $save_unit[] = [
                         'users_id' => $users_id,
-                        'master_unit_tipe_id' => $unit[$unit_id]->masterUnitTipe->id,
+                        'master_unit_tipe_id' => $unit[$unit_id]->tipe->id,
                         'master_unit_id' => $unit_id,
                     ];
                 }
@@ -96,16 +99,19 @@ class UsersController extends Controller
             UserRolesModel::query()->insert($save_unit);
 
             DB::commit();
+            session()->flash('success', 'User successfully created');
             return response()->json([
                 'status' => true,
                 'message' => 'User berhasil dibuat'
             ], 200);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollback();
+            Log::error($exception);
+
             return response()->json([
                 'status' => false,
                 'message' => 'Terjadi kesalahan, silakan coba beberapa saat lagi',
-                'error' => $e->getMessage()
+                'error' => $exception->getMessage()
             ], 500);
         }
     }
@@ -124,11 +130,7 @@ class UsersController extends Controller
             'user_id' => $user_id,
             'data' => $user,
             'role' => UserRolesModel::pluckUnitIdByUsersId($user->id),
-            'access' => MasterUnitTipeModel::with(
-                'masterUnit',
-                'masterUnit.masterUnitJenjang',
-                'masterUnit.masterUnitJenjang.masterJenjang'
-            )->get()
+            'access' => MasterUnitTipeModel::with(['unit'])->get()
         ]);
     }
 
@@ -136,8 +138,7 @@ class UsersController extends Controller
     {
         # get data
         $user = UsersModel::find($user_id);
-        $unit = MasterUnitModel::with('masterUnitTipe') # use for check unit tipe id
-            ->get()->keyBy('id');
+        $unit = MasterUnitModel::with('tipe')->get()->keyBy('id'); # use for check tipe id
         $role = UserRolesModel::pluckUnitIdByUsersId($user->id); # get existing access role variable
 
         # validate data
@@ -183,7 +184,6 @@ class UsersController extends Controller
             'password' => (!$request->password ? $user->password : Hash::make($request->password))
         ];
 
-
         try {
             DB::beginTransaction();
 
@@ -198,7 +198,7 @@ class UsersController extends Controller
                 if (!in_array($unit_id, $role)) {
                     $save_unit[] = [
                         'users_id' => $user->id,
-                        'master_unit_tipe_id' => $unit[$unit_id]->masterUnitTipe->id,
+                        'master_unit_tipe_id' => $unit[$unit_id]->tipe->id,
                         'master_unit_id' => $unit_id,
                     ];
                 }
@@ -212,16 +212,19 @@ class UsersController extends Controller
                 ->delete();
 
             DB::commit();
+            session()->flash('success', 'User successfully updated');
             return response()->json([
                 'status' => true,
                 'message' => 'User berhasil update'
             ], 200);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollback();
+            Log::error($exception);
+
             return response()->json([
                 'status' => false,
                 'message' => 'Terjadi kesalahan, silakan coba beberapa saat lagi',
-                'error' => $e->getMessage()
+                'error' => $exception->getMessage()
             ], 500);
         }
     }
@@ -242,6 +245,7 @@ class UsersController extends Controller
         # delete record
         if ($user->delete()) {
             # set response success
+            session()->flash('success', 'User successfully deleted');
             return response()->json([
                 'status' => true,
                 'message' => 'User berhasil di hapus'
