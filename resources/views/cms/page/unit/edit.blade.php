@@ -7,21 +7,21 @@
 @section('module')
     <div class="page-title d-flex">
         <h4>
-            <a href="{{ url('master/unit') }}" class="text-dark"><i class="icon-arrow-left52 mr-2"></i></a>
+            <a href="{{ route('master.unit.index') }}" class="text-dark"><i class="icon-arrow-left52 mr-2"></i></a>
             <span class="font-weight-semibold">Unit</span> - Edit
         </h4>
     </div>
 @endsection
 
 @section('breadcrumb')
-    <a href="{{ url('master/unit') }}" class="breadcrumb-item"><i class="icon-price-tags mr-2"></i> Index</a>
+    <a href="{{ route('master.unit.index') }}" class="breadcrumb-item"><i class="icon-price-tags mr-2"></i> Index</a>
     <span class="breadcrumb-item active">Edit</span>
 @endsection
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form id="formUpdate" action="{{ url('master/unit/save') }}" method="POST" enctype="multipart/form-data"
+            <form id="formUpdate" action="{{ route('master.unit.update', ['id' => $data->id]) }}" method="POST" enctype="multipart/form-data"
                 v-on:submit.prevent="submitForm">
                 <div class="row">
                     <div class="col-md-6">
@@ -30,8 +30,7 @@
 
                             <div class="form-group">
                                 <label>Tipe <span class="text-danger">*</span> :</label>
-                                <select name="tipe" id="tipe" class="form-control" v-model="form.tipe" required
-                                    @change=checkJenjang>
+                                <select name="tipe" id="tipe" class="form-control" v-model="form.tipe" required @change=checkJenjang>
                                     <option value="">Please select tipe</option>
                                     @foreach ($tipe as $row)
                                         <option value="{{ $row->id }}">{{ $row->value }}</option>
@@ -41,8 +40,7 @@
 
                             <div class="form-group" v-if="form.tipe == 2">
                                 <label>Fakultas <span class="text-danger">*</span> :</label>
-                                <select name="fakultas" id="fakultas" class="form-control" v-model="form.fakultas"
-                                    :required="form.tipe == 2 ? true : false">
+                                <select name="fakultas" id="fakultas" class="form-control" v-model="form.fakultas" :required="form.tipe == 2 ? true : false">
                                     <option value="">Please select fakultas</option>
                                     @foreach ($fakultas as $row)
                                         <option value="{{ $row->id }}">{{ $row->value }}</option>
@@ -52,8 +50,8 @@
 
                             <div class="form-group">
                                 <label>Unit <span class="text-danger">*</span> :</label>
-                                <input type="text" name="unit" id="unit" class="form-control"
-                                    placeholder="Teknik Informatika" required v-model="form.unit">
+                                <input type="text" name="unit" id="unit" class="form-control" placeholder="Teknik Informatika" required
+                                    v-model="form.unit">
                             </div>
                         </fieldset>
                     </div>
@@ -66,10 +64,9 @@
                                     <label>Pilih Jenjang <span class="text-danger">*</span> :</label>
                                     @foreach ($jenjang as $row)
                                         <div class="form-check">
-                                            <input class="form-check-input" name="jenjang[]" type="checkbox"
-                                                @if (in_array($row->id, $unit_jenjang)) checked @endif
-                                                id="jenjang{{ ucwords($row->value) }}" value="{{ $row->id }}"
-                                                :required="jenjangRequired ? true : false" @change=checkJenjang>
+                                            <input class="form-check-input" name="jenjang[]" type="checkbox" @if (in_array($row->id, $unit_jenjang)) checked @endif
+                                                id="jenjang{{ ucwords($row->value) }}" value="{{ $row->id }}" :required="jenjangRequired ? true : false"
+                                                @change=checkJenjang>
                                             <label class="form-check-label" for="jenjang{{ ucwords($row->value) }}">
                                                 {{ $row->value }}
                                             </label>
@@ -190,7 +187,7 @@
                     this.callAPI();
                     axios({
                         method: "POST",
-                        url: "{{ url('master/unit/update/' . $unit_id) }}",
+                        url: "{{ route('master.unit.update', ['id' => $data->id]) }}",
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
                                 .getAttribute('content'),
@@ -200,7 +197,7 @@
                         data: formData,
                     }).then((response) => {
                         if (response.data.status) {
-                            window.location.href = "{{ url('master/unit') }}";
+                            window.location.href = "{{ route('master.unit.index') }}";
                         } else { // alert failed
                             this.closeAPI();
                             this.warning(response.data.message);

@@ -1,5 +1,5 @@
 @extends('cms.template.panel')
-@section('title', 'Users')
+@section('title', 'Unit')
 
 @push('top')
 @endpush
@@ -35,7 +35,7 @@
             'search' => $search,
             'filter' => $filter,
             'filter_form' => [
-                'type' => [
+                'tipe' => [
                     'label' => 'Tipe',
                     'type' => 'select',
                     'data' => $tipe,
@@ -65,8 +65,8 @@
                 <tbody>
                     @foreach ($data as $row)
                         <tr>
-                            <td>{{ $row->tipe }}</td>
-                            <td>{{ $row->fakultas == '' ? '-' : $row->fakultas }}</td>
+                            <td>{{ $row->tipe->tipe }}</td>
+                            <td>{{ empty($row->fakultas->unit) ? '-' : $row->fakultas->unit }}</td>
                             <td>{{ $row->unit }}</td>
                             <td class="text-center">
                                 <div class="list-icons">
@@ -75,12 +75,10 @@
                                             <i class="icon-menu9"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ url('master/unit/edit/' . $row->id) }}" class="dropdown-item"
-                                                onclick="showLoading()">
+                                            <a href="{{ url('master/unit/edit/' . $row->id) }}" class="dropdown-item" onclick="showLoading()">
                                                 <i class="icon-pencil5"></i> Edit
                                             </a>
-                                            <a href="javascript:void(0)" class="dropdown-item"
-                                                @click="deleteData({{ $row->id }})">
+                                            <a href="javascript:void(0)" class="dropdown-item" @click="deleteData({{ $row->id }})">
                                                 <i class="icon-trash text-danger"></i> Delete
                                             </a>
                                         </div>
@@ -120,6 +118,14 @@
             },
             created: function() {
                 this.init();
+
+                @if (session()->has('success'))
+                    this.success("{{ session('success') }}");
+                @elseif (session()->has('warning'))
+                    this.warning("{{ session('warning') }}");
+                @elseif (session()->has('error'))
+                    this.error("{{ session('error') }}");
+                @endif
             },
             methods: {
                 /**

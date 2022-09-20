@@ -19,13 +19,41 @@ class UnitController extends Controller
     {
         # get query
         $query = request()->query();
-        $page = (int) request()->get('page') == '' ? 1 : request()->get('page');
-        $limit = (int) request()->get('limit') == '' ? 20 : request()->get('limit');
+        $page = request()->get('page') == '' ? 1 : (int) request()->get('page');
+        $limit = request()->get('limit') == '' ? 20 : (int) request()->get('limit');
         $search = request()->get('search') == '' ? '' : request()->get('search');
         $filter = is_array(request()->get('filter')) ? request()->get('filter') : [];
 
         # get data
-        $data = MasterUnitModel::getIndex($limit, $search, $filter);
+        $data = MasterUnitModel::with(['tipe', 'fakultas'])
+            ->where(function ($q) use ($filter) {
+                if (!empty($filter['tipe'])) {
+                    $q->whereHas('tipe', function ($qry) use ($filter) {
+                        $qry->where('id', '=', $filter['tipe']);
+                    });
+                }
+                if (!empty($filter['fakultas'])) {
+                    $q->whereHas('fakultas', function ($qry) use ($filter) {
+                        $qry->where('id', '=', $filter['fakultas']);
+                    });
+                }
+                if (!empty($filter['unit'])) {
+                    $q->where('unit', 'LIKE', '%' . $filter['unit'] . '%');
+                }
+            })
+            ->where(function ($q) use ($search) {
+                if ($search) {
+                    $q->where('unit', 'LIKE', '%' . $search . '%');
+                    $q->orWhereHas('tipe', function ($qry) use ($search) {
+                        $qry->where('tipe', 'LIKE', '%' . $search . '%');
+                    });
+                    $q->orWhereHas('fakultas', function ($qry) use ($search) {
+                        $qry->where('unit', 'LIKE', '%' . $search . '%');
+                    });
+                }
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate($limit);
         $tipe = MasterUnitTipeModel::getTipe();
         $fakultas = MasterUnitModel::getFakultas();
 
@@ -87,7 +115,7 @@ class UnitController extends Controller
             ]);
 
             # create jenjang if unit tipe = 2 (Prodi)
-            if ($request->tipe == '2' && isset($request->jenjang) && is_array($request->jenjang)) {
+            if ($request->tipe == '2' && !empty($request->jenjang) && is_array($request->jenjang)) {
                 foreach ($request->jenjang as $jenjang_id) {
                     if ($jenjang_id == '') continue;
                     MasterUnitJenjangModel::query()->insert([
@@ -98,6 +126,7 @@ class UnitController extends Controller
             }
 
             DB::commit();
+            session()->flash('success', 'Unit successfully created');
             return response()->json([
                 'status' => true,
                 'message' => 'Unit berhasil dibuat'
@@ -203,6 +232,7 @@ class UnitController extends Controller
             }
 
             DB::commit();
+            session()->flash('success', 'Unit successfully updated');
             return response()->json([
                 'status' => true,
                 'message' => 'Unit berhasil di update'
@@ -235,6 +265,7 @@ class UnitController extends Controller
         # delete record
         if ($unit->delete()) {
             # set response success
+            session()->flash('success', 'Unit successfully deleted');
             return response()->json([
                 'status' => true,
                 'message' => 'Unit berhasil di hapus'

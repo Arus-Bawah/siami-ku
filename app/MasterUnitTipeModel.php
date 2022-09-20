@@ -11,7 +11,12 @@ class MasterUnitTipeModel extends Model
 
     protected $table = 'master_unit_tipe';
 
-    public function masterUnit()
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    public function unit()
     {
         return $this->hasMany(MasterUnitModel::class, 'master_unit_tipe_id');
     }

@@ -11,6 +11,11 @@ class MasterJenjangModel extends Model
 
     protected $table = 'master_jenjang';
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public static function getJenjang()
     {
         return self::query()

@@ -11,12 +11,17 @@ class MasterUnitJenjangModel extends Model
 
     protected $table = 'master_unit_jenjang';
 
-    public function masterUnitTipe()
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    public function unit()
     {
         return $this->belongsTo(MasterUnitModel::class, 'master_unit_id');
     }
 
-    public function masterJenjang()
+    public function jenjang()
     {
         return $this->belongsTo(MasterJenjangModel::class, 'master_jenjang_id');
     }
