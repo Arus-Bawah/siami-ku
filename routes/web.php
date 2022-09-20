@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CmsMiddleware;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\CMS\AuditTemplateController;
 use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\UsersController;
 use App\Http\Controllers\CMS\UnitController;
@@ -75,6 +76,18 @@ Route::group([
         Route::get('/edit/{id}', [UnitController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [UnitController::class, 'update'])->name('update');
         Route::post('/delete/{id?}', [UnitController::class, 'delete'])->name('delete');
+    });
+
+    Route::group([
+        'prefix' => 'audit-template',
+        'as' => 'audit-template.',
+    ], function () {
+        Route::get('/', [AuditTemplateController::class, 'index'])->name('index');
+        Route::get('/add', [AuditTemplateController::class, 'add'])->name('add');
+        Route::post('/save', [AuditTemplateController::class, 'save'])->name('save');
+        Route::get('/edit/{id}', [AuditTemplateController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [AuditTemplateController::class, 'update'])->name('update');
+        Route::post('/delete/{id?}', [AuditTemplateController::class, 'delete'])->name('delete');
     });
 });
 
