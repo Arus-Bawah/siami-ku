@@ -10,6 +10,7 @@
 
 <script src="/assets/js/app.js"></script>
 <script src="/global_assets/js/demo_pages/form_layouts.js"></script>
+<script src="/global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
 <!-- /theme JS files -->
 
 <!-- Sweet Alert -->
